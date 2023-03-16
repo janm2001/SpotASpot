@@ -14,7 +14,6 @@ java -jar ./build/libs/SpotASpot-0.0.1-SNAPSHOT.jar
 replace 0.0.1 with version number
 # API tutorial
 
----
 > POST: `http://localhost:8080/api/v1/auth/register`  
 
 Send user data and return JWT auth token
