@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:4321/spot-a-spot-db"
+    username: "admin"
+    password: "admin"
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    url: 'jdbc:postgresql://localhost:4321/spot-a-spot-db'
+    user: "admin"
+    password: "admin"
+
+  main:
+    banner-mode: off
