@@ -1,6 +1,6 @@
-nav{
-    padding: 0.5rem 0;
-    background: #000;
+.nav{
+    padding: 3rem 0;
+    
     color: #fff;
     font-family: 'Poppins',sans-serif;
     
@@ -14,15 +14,21 @@ nav{
     justify-content: space-between;
 }
 
-nav a{
+.nav a{
     color: #fff !important;
     text-decoration: none !important;
+    font-size: 1.5rem;
+}
+
+.nav a:hover{
+    color: #ECB365 !important;
+    border-bottom: 2px solid #ECB365;
 }
 
 .links{
    
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     align-items: flex-start;
     justify-items: center;
 }
@@ -45,10 +51,13 @@ nav a{
     align-items: center;
     justify-content: center;
     
+    
+    
 }
 
 .icon svg{
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    padding-bottom: 5px;
 }
 
 @media(max-width:968px){
@@ -76,12 +85,18 @@ nav a{
     .smallerDisplay button svg{
         color: #fff;
         font-size: 1.5rem;
+        
     }
 
     .linksSmall{
         display: block;
         transition: 0,5s;
         animation: fadeIn 1s;
+        background: linear-gradient(180deg, #04293A 0%, rgba(4, 41, 58, 0.756218) 36.72%, rgba(4, 41, 58, 0) 100%);
+    }
+
+    .icon{
+        margin-left: 2rem;
     }
 
     .profile{
