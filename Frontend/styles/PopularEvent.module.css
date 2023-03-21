@@ -1,0 +1,30 @@
+.cardImage{
+    width: 100%;
+    margin: 0 auto !important;
+    position: relative;
+    display: inline-block;
+    padding: 0 !important;
+}
+
+.imageText{
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    transform: translateY(-5%);
+    
+    color: #fff;
+    font-weight: bold;
+    font-size: 2rem;
+    
+}
+
+.price{
+    font-size: 1.5rem;
+}
+
+.cardIcons{
+    color: #ECB365;
+}
+
+
+

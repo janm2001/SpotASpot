@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "@mui/material";
+import {Link} from "@mui/material";
 import styles from "./Navbar.module.css";
+import {useRouter} from 'next/router';
 
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
@@ -9,6 +10,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
+  const router = useRouter();
 
   return (
     <nav className={styles.nav}>
@@ -20,10 +22,10 @@ const Navbar = () => {
         </div>
 
         <div className={styles.links}>
-          <Link href="/">Home</Link>
-          <Link href="/events">Events</Link>
-          <Link href="/myevents">My Events</Link>
-          <Link href="/about">About Us</Link>
+          <Link href="/" className={`${router.pathname === "/" ? "active" : ""} `}>Home</Link>
+          <Link href="/events" className={`${router.pathname === "/events" ? "active" : ""} `}>Events</Link>
+          <Link href="/myevents" className={`${router.pathname === "/myevents" ? "active" : ""} `}>My Events</Link>
+          <Link href="/about" className={`${router.pathname === "/about" ? "active" : ""} `}>About Us</Link>
           <Link className={styles.icon}>
             <CgProfile />
           </Link>
@@ -40,7 +42,7 @@ const Navbar = () => {
           className={styles.linksSmall}
           sx={{
             width: "100%",
-            background: "#000",
+            
             color: "#fff",
             textAlign: "center",
           }}
