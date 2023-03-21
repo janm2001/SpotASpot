@@ -68,11 +68,17 @@ const Navbar = () => {
                 <Link href="/about">About us</Link>
               </ListItemText>
             </MenuItem>
-            <MenuItem sx={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Link className={styles.icon}>
-                <CgProfile className={styles.profile}/>
-              </Link>
-            </MenuItem>
+            <div className={styles.profile}>
+            <MenuItem>
+            
+            <Link className={styles.icon}>
+              
+              <CgProfile />
+              
+            </Link>
+            
+          </MenuItem>
+            </div>
           </MenuList>
         </Paper>
       )}

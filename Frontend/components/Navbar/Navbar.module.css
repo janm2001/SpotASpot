@@ -99,6 +99,14 @@
         margin-left: 2rem;
     }
 
+    .profile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding-left: 2rem;
+    }
+
     
 
     
