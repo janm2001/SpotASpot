@@ -31,16 +31,7 @@ public class AuthenticationService {
     private final Clock clock;
 
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.valueOf(request.getRole().toString()))
-                .createdAt(LocalDateTime.now(clock))
-                .lastLogin(LocalDateTime.now(clock))
-                .build();
+        User user = request.toUser(passwordEncoder, LocalDateTime.now(clock));
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();

@@ -1,10 +1,14 @@
 package com.codeninjas.spotaspot.auth.controller.dto;
 
+import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,5 +30,19 @@ public class RegisterRequest {
         role = RoleRequest.valueOf(user.getRole().toString());
         username = user.getUsername();
         password = user.getPassword();
+    }
+
+    public User toUser(PasswordEncoder passwordEncoder, LocalDateTime localDateTime) {
+        return User.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .role(Role.valueOf(role.toString()))
+                .createdAt(localDateTime)
+                .lastLogin(localDateTime)
+                .lastChange(localDateTime)
+                .build();
     }
 }

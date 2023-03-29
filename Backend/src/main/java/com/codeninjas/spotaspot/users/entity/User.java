@@ -41,6 +41,8 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
     @Column (nullable = false)
     private LocalDateTime lastLogin;
+    @Column (nullable = false)
+    private LocalDateTime lastChange;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

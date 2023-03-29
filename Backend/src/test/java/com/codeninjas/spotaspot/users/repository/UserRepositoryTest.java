@@ -42,6 +42,7 @@ class UserRepositoryTest {
                 .lastName("Marinovic")
                 .createdAt(timeNow)
                 .lastLogin(timeNow)
+                .lastChange(timeNow)
                 .role(Role.USER)
                 .build();
 
@@ -72,6 +73,7 @@ class UserRepositoryTest {
                 .lastName("Marinovic")
                 .createdAt(timeNow)
                 .lastLogin(timeNow)
+                .lastChange(timeNow)
                 .role(Role.USER)
                 .build();
 

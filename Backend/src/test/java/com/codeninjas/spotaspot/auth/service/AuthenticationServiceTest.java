@@ -75,7 +75,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void canRegister() throws Exception {
+    void registerShouldReturnToken() throws Exception {
         // given
         User user = User.builder()
                 .firstName("Leonardo")
@@ -107,7 +107,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void canAuthenticate() throws Exception {
+    void authenticateShouldReturnToken() throws Exception {
         // given
         User user = User.builder()
                 .firstName("Leonardo")
@@ -147,7 +147,7 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    void willThrowAuthenticateWhenWrongUsername() {
+    void authenticateWillThrowWhenWrongUsername() {
         // given
         AuthenticationRequest request = AuthenticationRequest
                 .builder()
