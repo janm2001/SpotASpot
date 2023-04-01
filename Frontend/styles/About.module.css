@@ -1,0 +1,47 @@
+.container{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    width: 80%;
+    margin: 2rem auto;
+}
+
+
+
+.info{
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: 2rem;
+    width: 60%;
+    margin: 1rem auto;
+    
+}
+
+.info h2{
+    color: #ECB365;
+    border-bottom: 2px solid #ECB365;
+    margin:1rem 0;
+}
+
+.info p{
+    margin-top: 1.5rem;
+}
+
+.info h1{
+    font-size: 5rem;
+    color: #ECB365;
+}
+
+.img{
+    height: 60vh;
+    text-align: center;
+   
+}
+
+.img img{
+    width: 100%;
+    height: 100%;
+}
+
