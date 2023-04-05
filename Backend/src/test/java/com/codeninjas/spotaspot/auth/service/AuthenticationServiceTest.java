@@ -50,7 +50,7 @@ class AuthenticationServiceTest {
 
     private AuthenticationService authenticationService;
     private AutoCloseable autoCloseable;
-    private LocalDateTime timeExample = LocalDateTime.of(2000, 10, 10, 10, 10);
+    private LocalDateTime timeExample = LocalDateTime.of(2000, 10, 10, 10, 10, 10, 0);
     private Clock fixedClock;
     @BeforeEach
     void setUp() {
@@ -86,6 +86,7 @@ class AuthenticationServiceTest {
                 .role(Role.USER)
                 .createdAt(LocalDateTime.now(clock))
                 .lastLogin(LocalDateTime.now(clock))
+                .lastChange(LocalDateTime.now(clock))
                 .build();
 
         RegisterRequest regRequest = new RegisterRequest(user);

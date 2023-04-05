@@ -5,6 +5,11 @@ spring:
     password: "admin"
     driver-class-name: org.postgresql.Driver
 
+  data:
+    web:
+      pageable:
+        max-page-size: 10
+
   jpa:
     open-in-view: false
     properties:

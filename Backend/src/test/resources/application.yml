@@ -4,6 +4,11 @@ spring:
   datasource:
     url: 'jdbc:tc:postgresql:13-alpine://localhost:4321/spot-a-spot-db-test'
 
+  data:
+    web:
+      pageable:
+        max-page-size: 10
+
   jpa:
     open-in-view: false
     hibernate:

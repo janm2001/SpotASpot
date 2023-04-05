@@ -10,9 +10,12 @@ import com.codeninjas.spotaspot.events.service.exceptions.InvalidAddEventExcepti
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.events.service.exceptions.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
+import com.codeninjas.spotaspot.users.repository.UserRepository;
 import com.codeninjas.spotaspot.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -25,6 +28,14 @@ public class EventService {
     private final EventRepository eventRepository;
     private final Clock clock;
 
+    public Page<EventResponse> getAllEvents(Pageable pageable) throws Exception {
+        return eventRepository.findAll(pageable).map(EventResponse::new);
+    }
+
+    public Page<EventResponse> getAllEventsForUser(Pageable pageable, Long userId) throws DataAccessException {
+        return eventRepository.findAllByCreatedBy(pageable, userId).map(EventResponse::new);
+    }
+
     public EventResponse getEvent(Long id) throws EventNotFoundException {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         return new EventResponse(event);
@@ -36,7 +47,6 @@ public class EventService {
         try {
             eventRepository.save(event);
         } catch(DataAccessException e) {
-            e.printStackTrace();
             throw new InvalidAddEventException();
         }
     }
