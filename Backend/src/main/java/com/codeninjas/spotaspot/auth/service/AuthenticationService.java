@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,32 +28,25 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final Clock clock;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.valueOf(request.getRole().toString()))
-                .createdAt(LocalDateTime.now())
-                .lastLogin(LocalDateTime.now())
-                .build();
+    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+        User user = request.toUser(passwordEncoder, LocalDateTime.now(clock));
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword()));
 
-        // TODO: Handle exception
-        // TODO: Update last login
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow(
                 () -> new UsernameNotFoundException("Username not found"));
+        user.setLastLogin(LocalDateTime.now(clock));
+        userRepository.save(user);
+
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

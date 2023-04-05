@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.config;
 
+import com.codeninjas.spotaspot.users.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +22,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
+                .cors().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/v1/user/get").authenticated()
+                .requestMatchers("/api/v1/event/all").permitAll()
+                .requestMatchers("/api/v1/event/for-user/{id}").permitAll()
+                .requestMatchers("/api/v1/event/{id}").permitAll()
+                .requestMatchers("/api/v1/event/add").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
+                .requestMatchers("/api/v1/event/delete/{id}").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
+                .requestMatchers("/api/v1/event/update").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
+                .requestMatchers("/api/v1/event/categories").permitAll()
+                .anyRequest().denyAll()
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

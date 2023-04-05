@@ -12,7 +12,7 @@ Server is running on port `8080`
 1. Run terminal inside this folder
 2. type: "./gradlew bootRun"
 ```
-replace 0.0.1 with version number
+
 # API docs
 
 ## REGISTER:
