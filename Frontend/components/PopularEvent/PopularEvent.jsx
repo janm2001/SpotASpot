@@ -3,11 +3,11 @@ import {Card,CardActions,CardMedia,CardContent,Typography,Button} from '@mui/mat
 import styles from '@/styles/PopularEvent.module.css'
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
-import { margin } from '@mui/system';
-const PopularEvent = ({name,description,image,time,location,price}) => {
+import Link from 'next/link';
+const PopularEvent = ({name,description,image,time,location,price,id}) => {
   return (
-    <div>
-        <Card sx={{ maxWidth: 345,maxHeight:500,background:"#064663",color:"#fff",lineHeight:2 }}>
+    <Link href={`/${id}`}>
+        <Card sx={{background:"#064663",color:"#fff",lineHeight:2 }}>
       <div className={styles.cardImage}>
       <CardMedia
         className={styles.image}
@@ -44,7 +44,7 @@ const PopularEvent = ({name,description,image,time,location,price}) => {
       
       
     </Card>
-    </div>
+    </Link>
   )
 }
 

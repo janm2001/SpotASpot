@@ -26,9 +26,10 @@ const Navbar = () => {
           <Link href="/events" className={`${router.pathname === "/events" ? "active" : ""} `}>Events</Link>
           <Link href="/myevents" className={`${router.pathname === "/myevents" ? "active" : ""} `}>My Events</Link>
           <Link href="/about" className={`${router.pathname === "/about" ? "active" : ""} `}>About Us</Link>
-          <Link className={styles.icon}>
+          <Link href="/login" className={`${router.pathname === "/login" ? "active" : ""} `}>Login</Link>
+          {/* <Link className={styles.icon}>
             <CgProfile />
-          </Link>
+          </Link> */}
         </div>
 
         <div className={styles.smallerDisplay}>
