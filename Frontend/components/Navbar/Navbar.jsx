@@ -69,7 +69,12 @@ const Navbar = () => {
                 <Link href="/about">About us</Link>
               </ListItemText>
             </MenuItem>
-            <div className={styles.profile}>
+            <MenuItem>
+              <ListItemText inset>
+                <Link href="/login">Login</Link>
+              </ListItemText>
+            </MenuItem>
+            {/* <div className={styles.profile}>
             <MenuItem>
             
             <Link className={styles.icon}>
@@ -79,7 +84,7 @@ const Navbar = () => {
             </Link>
             
           </MenuItem>
-            </div>
+            </div> */}
           </MenuList>
         </Paper>
       )}
