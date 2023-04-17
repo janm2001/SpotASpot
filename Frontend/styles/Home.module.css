@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4,1fr);
   gap: 1rem;
-  width: 80%;
+  width: 90%;
   margin: 2rem auto;
 }
 
@@ -10,4 +10,14 @@
   text-align: center;
   font-size: 2rem;
   margin: 3rem 0;
+}
+
+@media(max-width:1024px){
+  .popularEvents{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    gap: 1rem;
+    width: 90%;
+    margin: 2rem auto;
+  }
 }

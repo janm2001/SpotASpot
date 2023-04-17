@@ -1,0 +1,20 @@
+
+
+.eventItems{
+    width:90%;
+    margin:0 auto;
+    display:grid;
+    gap:10px;
+    grid-template-columns: repeat(2,1fr);
+}
+
+@media(max-width:1024px){
+
+.eventItems{
+    width:90%;
+    margin:0 auto;
+    display:grid;
+    gap:10px;
+    grid-template-columns: repeat(1,1fr);
+}
+}

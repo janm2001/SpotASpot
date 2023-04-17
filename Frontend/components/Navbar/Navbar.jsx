@@ -26,9 +26,10 @@ const Navbar = () => {
           <Link href="/events" className={`${router.pathname === "/events" ? "active" : ""} `}>Events</Link>
           <Link href="/myevents" className={`${router.pathname === "/myevents" ? "active" : ""} `}>My Events</Link>
           <Link href="/about" className={`${router.pathname === "/about" ? "active" : ""} `}>About Us</Link>
-          <Link className={styles.icon}>
+          <Link href="/login" className={`${router.pathname === "/login" ? "active" : ""} `}>Login</Link>
+          {/* <Link className={styles.icon}>
             <CgProfile />
-          </Link>
+          </Link> */}
         </div>
 
         <div className={styles.smallerDisplay}>
@@ -68,7 +69,12 @@ const Navbar = () => {
                 <Link href="/about">About us</Link>
               </ListItemText>
             </MenuItem>
-            <div className={styles.profile}>
+            <MenuItem>
+              <ListItemText inset>
+                <Link href="/login">Login</Link>
+              </ListItemText>
+            </MenuItem>
+            {/* <div className={styles.profile}>
             <MenuItem>
             
             <Link className={styles.icon}>
@@ -78,7 +84,7 @@ const Navbar = () => {
             </Link>
             
           </MenuItem>
-            </div>
+            </div> */}
           </MenuList>
         </Paper>
       )}
