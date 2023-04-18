@@ -2,11 +2,13 @@ package com.codeninjas.spotaspot.events.service;
 
 import com.codeninjas.spotaspot.config.JwtService;
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
+import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
 import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
+import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.service.UserService;
@@ -70,6 +72,7 @@ class EventServiceTest {
 
     List<Event> exampleEvents = List.of(
             Event.builder()
+                    .id(1)
                     .name("Programiranje java")
                     .description("Radionica za programiranje u javi")
                     .category(EventCategory.RADIONICA)
@@ -82,6 +85,7 @@ class EventServiceTest {
                     .lastChange(timeExample)
                     .build(),
             Event.builder()
+                    .id(2)
                     .name("Društvene igre online")
                     .description("Amongus na steamu")
                     .category(EventCategory.IGRA)
@@ -153,7 +157,7 @@ class EventServiceTest {
             .lastLogin(timeExample)
             .build();
     @Test
-    void addEvent() throws Exception {
+    void addEventShouldAddSpecifiedEvent() throws Exception {
         // given
         EventAddRequest request = EventAddRequest
                 .builder()
@@ -181,10 +185,36 @@ class EventServiceTest {
     }
 
     @Test
-    void deleteEvent() {
+    void deleteEventShouldRemoveEventById() throws InvalidDeleteEventException {
+        // given
+        Long givenId = 2L;
+        eventRepository.saveAll(exampleEvents);
+
+        // when
+        eventService.deleteEvent(givenId);
+
+        // then
+        verify(eventRepository).deleteById(givenId);
     }
 
     @Test
-    void updateEvent() {
+    void updateEventShouldChangeEvent() throws Exception {
+        // given
+        Event target = exampleEvents.get(1);
+
+        eventRepository.saveAll(exampleEvents);
+        EventPutRequest request = new EventPutRequest(target);
+        request.setName("New name");
+        request.setCity(null);
+        request.setDescription("New description");
+
+        doReturn(Optional.of(target)).when(eventRepository).findById(2L);
+        // when
+        eventService.updateEvent(request);
+        // then
+        ArgumentCaptor<Event> eventArgumentCaptor = ArgumentCaptor.forClass(Event.class);
+        verify(eventRepository).save(eventArgumentCaptor.capture());
+        Event capturedEvent = eventArgumentCaptor.getValue();
+        assertThat(capturedEvent).isEqualTo(request.toEventFill(target, LocalDateTime.now(clock)));
     }
 }
