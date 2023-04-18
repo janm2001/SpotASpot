@@ -34,7 +34,7 @@ public class Event {
     private LocalDateTime dateTime;
     @Column (nullable = false)
     private Boolean isAvailable;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
     @Column (nullable = false)
