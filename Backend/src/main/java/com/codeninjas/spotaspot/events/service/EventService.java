@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.events.service;
 
+import com.codeninjas.spotaspot.config.JwtService;
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
@@ -12,6 +13,7 @@ import com.codeninjas.spotaspot.events.service.exceptions.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
 import com.codeninjas.spotaspot.users.service.UserService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,9 +28,10 @@ import java.time.LocalDateTime;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final JwtService jwtService;
     private final Clock clock;
 
-    public Page<EventResponse> getAllEvents(Pageable pageable) throws Exception {
+    public Page<EventResponse> getAllEvents(@NonNull Pageable pageable) throws Exception {
         return eventRepository.findAll(pageable).map(EventResponse::new);
     }
 
@@ -42,11 +45,12 @@ public class EventService {
     }
 
     public void addEvent(EventAddRequest eventAddRequest) throws Exception {
-        User user = UserService.getCurrentUser();
+        User user = jwtService.getCurrentUser();
         Event event = eventAddRequest.toEvent(user, LocalDateTime.now(clock));
         try {
             eventRepository.save(event);
         } catch(DataAccessException e) {
+            e.printStackTrace();
             throw new InvalidAddEventException();
         }
     }
@@ -59,10 +63,10 @@ public class EventService {
         }
     }
 
-    public void updateEvent(EventPutRequest request) throws Exception {
+    public void updateEvent(@NonNull EventPutRequest request) throws Exception {
         Event targetEvent = eventRepository.findById(request.getId()).orElseThrow(() ->
                 new EventNotFoundException(request.getId()));
-        User currentUser = UserService.getCurrentUser();
+        User currentUser = jwtService.getCurrentUser();
         if (targetEvent.getCreatedBy().getId() != currentUser.getId()) {
             throw new UserNotOwnerException();
         }

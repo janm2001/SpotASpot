@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.users.service;
 
+import com.codeninjas.spotaspot.config.JwtService;
 import com.codeninjas.spotaspot.users.controller.dto.UserResponse;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
@@ -13,17 +14,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-    public static UserResponse getCurrentUserDetails() throws UsernameNotFoundException {
-        return new UserResponse(getCurrentUser());
+    public UserResponse getCurrentUserDetails() throws UsernameNotFoundException {
+        return new UserResponse(jwtService.getCurrentUser());
     }
 
-    public static User getCurrentUser() throws UsernameNotFoundException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (user == null) {
-            throw new UsernameNotFoundException("Bad token");
-        }
-        return user;
-    }
+
 
 }

@@ -1,4 +1,3 @@
-CREATE SEQUENCE event_seq INCREMENT 1;
 CREATE TABLE event(
         id BIGSERIAL PRIMARY KEY,
         name TEXT NOT NULL,
@@ -12,3 +11,4 @@ CREATE TABLE event(
         created_at TIMESTAMPTZ NOT NULL,
         last_change TIMESTAMPTZ NOT NULL
 );
+ALTER SEQUENCE event_id_seq INCREMENT 1;

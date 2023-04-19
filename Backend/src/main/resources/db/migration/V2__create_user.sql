@@ -1,4 +1,3 @@
-CREATE SEQUENCE _user_seq INCREMENT 1;
 CREATE TABLE _user(
         id BIGSERIAL PRIMARY KEY,
         first_name TEXT NOT NULL,
@@ -11,3 +10,4 @@ CREATE TABLE _user(
         last_login TIMESTAMPTZ NOT NULL,
         last_change TIMESTAMPTZ NOT NULL
 );
+ALTER SEQUENCE _user_id_seq INCREMENT 1;
