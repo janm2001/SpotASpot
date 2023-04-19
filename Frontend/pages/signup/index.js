@@ -11,19 +11,48 @@ import {
   Box,
   Typography,
   Container,
-  FormGroup
+  FormGroup,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const index = () => {
-  const handleSubmit = (event) => {
+  const BASE_URL = 'http://localhost:8080'
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const submitData = new FormData(event.currentTarget);
+    const response = await fetch(BASE_URL+"/api/v1/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        firstName: submitData.get("firstName"),
+        lastName: submitData.get("lastName"),
+        role: submitData.get("role"),
+        email: submitData.get("email"),
+        username: submitData.get("username"),
+        password: submitData.get("password"),
+      }),
     });
+    const data = await response.json();
+    console.log(data);
+    localStorage.setItem("token", data.token);
+
+    router.push("/");
+
+    // console.log({
+    //   firstName: data.get("firstName"),
+    //   lastName: data.get("lastName"),
+    //   role: data.get("role"),
+    //   email: data.get("email"),
+    //   username: data.get("username"),
+    //   password: data.get("password"),
+    // });
   };
   const darkTheme = createTheme({
     palette: {
@@ -33,7 +62,7 @@ const index = () => {
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
-        <Container component="main" maxWidth="xs" sx={{ height: "75vh" }}>
+        <Container component="main" maxWidth="xs" sx={{ height: "100vh" }}>
           <CssBaseline />
           <Box
             sx={{
@@ -57,12 +86,32 @@ const index = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
+                id="firstName"
+                label="firstName"
+                name="firstName"
+                autoComplete="firstName"
                 autoFocus
               />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="lastName"
+                label="lastName"
+                name="lastName"
+                autoComplete="lastName"
+                autoFocus
+              />
+              <Select
+                labelId="Select Role"
+                id="role"
+                name="role"
+                label="Role"
+                defaultValue={"USER"}
+              >
+                <MenuItem value={"USER"}>User</MenuItem>
+                <MenuItem value={"ORGANIZOR"}>Organizor</MenuItem>
+              </Select>
               <TextField
                 margin="normal"
                 required
@@ -77,16 +126,23 @@ const index = () => {
                 margin="normal"
                 required
                 fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+
+              <TextField
+                margin="normal"
+                required
+                fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
-
-              <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Organizor" />
-              </FormGroup>
 
               <Button
                 type="submit"
