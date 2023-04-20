@@ -15,11 +15,13 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const index = () => {
   const BASE_URL = 'http://localhost:8080'
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
