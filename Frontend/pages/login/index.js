@@ -4,25 +4,43 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  
   Link,
   Grid,
   Box,
   Typography,
   Container,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const index = () => {
-  const handleSubmit = (event) => {
+
+  const router = useRouter();
+  const BASE_URL = 'http://localhost:8080'
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const submitData = new FormData(event.currentTarget);
+    const response = await fetch(BASE_URL+"/api/v1/auth/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        
+        username: submitData.get("username"),
+        password: submitData.get("password"),
+      }),
     });
+    const data = await response.json();
+    console.log(data);
+    localStorage.setItem("token", data.token);
+
+    router.push("/");
+    
   };
   const darkTheme = createTheme({
     palette: {
@@ -56,10 +74,10 @@ const index = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField

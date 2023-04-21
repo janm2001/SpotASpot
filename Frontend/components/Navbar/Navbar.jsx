@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Link} from "@mui/material";
 import styles from "./Navbar.module.css";
 import {useRouter} from 'next/router';
 
+
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
 import { Paper, MenuItem, MenuList, ListItemText } from "@mui/material";
-import { CgProfile } from "react-icons/cg";
+
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const router = useRouter();
+  const [login,setLogin] = useState(false);
+  
+
+  useEffect(() => {
+    
+    
+    if(!(localStorage.getItem('token') === null)){
+      setLogin(true);
+      
+    }
+  },[]);
+
+  console.log(login);
 
   return (
     <nav className={styles.nav}>
@@ -26,7 +40,7 @@ const Navbar = () => {
           <Link href="/events" className={`${router.pathname === "/events" ? "active" : ""} `}>Events</Link>
           <Link href="/myevents" className={`${router.pathname === "/myevents" ? "active" : ""} `}>My Events</Link>
           <Link href="/about" className={`${router.pathname === "/about" ? "active" : ""} `}>About Us</Link>
-          <Link href="/login" className={`${router.pathname === "/login" ? "active" : ""} `}>Login</Link>
+          {!login ? <Link href="/login" className={`${router.pathname === "/login" ? "active" : ""} `}>Login</Link> : <Link href="/" className={`${router.pathname === "/login" ? "active" : ""} `} onClick={() => localStorage.removeItem('token')}>Logout</Link>}
           {/* <Link className={styles.icon}>
             <CgProfile />
           </Link> */}
@@ -69,7 +83,18 @@ const Navbar = () => {
                 <Link href="/about">About us</Link>
               </ListItemText>
             </MenuItem>
-            <div className={styles.profile}>
+            {!login ? 
+            <MenuItem>
+            <ListItemText inset>
+              <Link href="/login">Login</Link>
+            </ListItemText>
+          </MenuItem> : 
+          <MenuItem onClick={() => localStorage.removeItem('token')}>
+          <ListItemText inset>
+            <Link href="/">Logout</Link>
+          </ListItemText>
+        </MenuItem>}
+            {/* <div className={styles.profile}>
             <MenuItem>
             
             <Link className={styles.icon}>
@@ -79,7 +104,7 @@ const Navbar = () => {
             </Link>
             
           </MenuItem>
-            </div>
+            </div> */}
           </MenuList>
         </Paper>
       )}

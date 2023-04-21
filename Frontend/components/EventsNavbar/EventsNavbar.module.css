@@ -40,3 +40,25 @@
 .active{
     color: #ECB365;
 }
+
+@media(max-width:1024px){
+    .navbar{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 2rem auto;
+        width: 80%;
+        
+    }
+
+    .categories{
+
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 0.5rem;
+        
+        
+    }
+}

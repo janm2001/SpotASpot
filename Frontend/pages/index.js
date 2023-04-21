@@ -9,10 +9,12 @@ import PopularEvent from "@/components/PopularEvent/PopularEvent";
 
 
 import {Button,Paper} from '@mui/material'
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  
   const dummyCarouselEvents = [
     {
       id:1,
@@ -131,7 +133,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>SpotASpot - Home</title>
         <meta name="description" content="SpotASpot - Home" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
