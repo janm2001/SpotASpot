@@ -1,7 +1,5 @@
 package com.codeninjas.spotaspot.events.service.exceptions;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
-
 public class EventNotFoundException extends Exception {
 
     public EventNotFoundException(Long id) {

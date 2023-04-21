@@ -15,7 +15,8 @@ Server is running on port `8080`
 
 # API docs
 
-## REGISTER:
+## AUTHENTICATION:
+
 > POST: `http://localhost:8080/api/v1/auth/register`  
 
 Send user data and return JWT auth token

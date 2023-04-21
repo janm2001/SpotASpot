@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/get")
-    public ResponseEntity get() {
+    public ResponseEntity<?> get() {
         UserResponse response;
         try {
             response = userService.getCurrentUserDetails();

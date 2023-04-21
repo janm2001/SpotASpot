@@ -63,6 +63,7 @@ class AuthenticationServiceTest {
                 clock);
 
         doReturn("1234").when(jwtService).generateToken(any());
+        doReturn("123456").when(passwordEncoder).encode(anyString());
 
         fixedClock = Clock.fixed(LOCAL_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
         doReturn(fixedClock.instant()).when(clock).instant();
@@ -101,10 +102,7 @@ class AuthenticationServiceTest {
 
         assertThat(capturedUser).isEqualTo(user);
         assertThat(response)
-                .isEqualTo(AuthenticationResponse
-                    .builder()
-                    .token("1234")
-                    .build());
+                .isEqualTo(new AuthenticationResponse("1234"));
     }
 
     @Test
@@ -121,11 +119,7 @@ class AuthenticationServiceTest {
                 .lastLogin(timeExample)
                 .build();
 
-        AuthenticationRequest request = AuthenticationRequest
-                .builder()
-                .username("leca12")
-                .password("leonardo123")
-                .build();
+        AuthenticationRequest request = new AuthenticationRequest("leca12", "leonardo123");
 
         doReturn(Optional.of(user)).when(userRepository).findByUsername("leca12");
 
@@ -141,20 +135,13 @@ class AuthenticationServiceTest {
         // This check doesn't work
         assertThat(capturedUser).isEqualTo(user);
         assertThat(response)
-                .isEqualTo(AuthenticationResponse
-                        .builder()
-                        .token("1234")
-                        .build());
+                .isEqualTo(new AuthenticationResponse("1234"));
     }
 
     @Test
     void authenticateWillThrowWhenWrongUsername() {
         // given
-        AuthenticationRequest request = AuthenticationRequest
-                .builder()
-                .username("leca12")
-                .password("leonardo123")
-                .build();
+        AuthenticationRequest request = new AuthenticationRequest("leca12", "leonardo123");
 
         doReturn(Optional.empty()).when(userRepository).findByUsername(any());
 

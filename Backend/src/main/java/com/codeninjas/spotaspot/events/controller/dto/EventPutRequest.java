@@ -2,37 +2,36 @@ package com.codeninjas.spotaspot.events.controller.dto;
 
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class EventPutRequest {
+@JsonSerialize
+public record EventPutRequest(
+        @NonNull Long id,
+        @NonNull String name,
+        String description,
+        @NonNull EventCategory category,
+        String city,
+        @NonNull String location,
+        @NonNull LocalDateTime dateTime,
+        @NonNull Boolean isAvailable
+) {
 
-    private long id;
-    private String name;
-    private String description;
-    private EventCategory category;
-    private String city;
-    private String location;
-    private LocalDateTime dateTime;
-    private Boolean isAvailable;
+
 
     public EventPutRequest(Event event) {
-        this.id = event.getId();
-        this.name = event.getName();
-        this.description = event.getDescription();
-        this.category = event.getCategory();
-        this.city = event.getCity();
-        this.location = event.getLocation();
-        this.dateTime = event.getDateTime();
-        this.isAvailable = event.getIsAvailable();
+        this(
+                event.getId(),
+                event.getName(),
+                event.getDescription(),
+                event.getCategory(),
+                event.getCity(),
+                event.getLocation(),
+                event.getDateTime(),
+                event.getIsAvailable()
+        );
     }
 
     public Event toEventFill(Event event, LocalDateTime localDateTimeNow) {

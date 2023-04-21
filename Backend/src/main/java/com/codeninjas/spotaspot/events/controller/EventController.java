@@ -13,9 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/event")
@@ -25,7 +24,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping("/all")
-    public ResponseEntity getAllEvents(Pageable pageable) {
+    public ResponseEntity<?> getAllEvents(Pageable pageable) {
         Page<EventResponse> response;
         try {
             response = eventService.getAllEvents(pageable);
@@ -38,7 +37,7 @@ public class EventController {
     }
 
     @GetMapping("/for-user/{id}")
-    public ResponseEntity getAllEventsForUser(Pageable pageable, @PathVariable Long id) {
+    public ResponseEntity<?> getAllEventsForUser(Pageable pageable, @PathVariable Long id) {
         Page<EventResponse> response;
         try {
             response = eventService.getAllEventsForUser(pageable, id);
@@ -51,7 +50,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getEvent(@PathVariable Long id) {
+    public ResponseEntity<?> getEvent(@PathVariable Long id) {
         EventResponse response;
         try {
             response = eventService.getEvent(id);
@@ -64,7 +63,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addEvent(@RequestBody EventAddRequest request) {
+    public ResponseEntity<?> addEvent(@Validated @RequestBody EventAddRequest request) {
         try {
             eventService.addEvent(request);
         } catch (Exception e) {
@@ -77,7 +76,7 @@ public class EventController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         try {
             eventService.deleteEvent(id);
         } catch(InvalidDeleteEventException e) {
@@ -89,7 +88,7 @@ public class EventController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity updateEvent(@RequestBody EventPutRequest request) {
+    public ResponseEntity<?> updateEvent(@Validated @RequestBody EventPutRequest request) {
         try {
             eventService.updateEvent(request);
         } catch (Exception e) {
@@ -101,7 +100,7 @@ public class EventController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity getCategories() {
+    public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(EventCategory.values());
     }
 }
