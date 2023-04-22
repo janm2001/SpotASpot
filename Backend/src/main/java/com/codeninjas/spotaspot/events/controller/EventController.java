@@ -8,6 +8,7 @@ import com.codeninjas.spotaspot.events.service.EventService;
 import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllEvents(Pageable pageable) {
+    public ResponseEntity<?> getAllEvents(@ParameterObject Pageable pageable) {
         Page<EventResponse> response;
         try {
             response = eventService.getAllEvents(pageable);
@@ -37,7 +38,7 @@ public class EventController {
     }
 
     @GetMapping("/for-user/{id}")
-    public ResponseEntity<?> getAllEventsForUser(Pageable pageable, @PathVariable Long id) {
+    public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable Long id) {
         Page<EventResponse> response;
         try {
             response = eventService.getAllEventsForUser(pageable, id);
@@ -49,7 +50,7 @@ public class EventController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) {
         EventResponse response;
         try {

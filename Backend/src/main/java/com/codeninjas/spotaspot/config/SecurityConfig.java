@@ -39,7 +39,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/event/update").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
                 .requestMatchers("/api/v1/event/categories").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
-                .anyRequest().denyAll()
+                .requestMatchers("/api/v3/api-docs").permitAll()
+                .requestMatchers("/api/swagger-ui/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -2,13 +2,18 @@ package com.codeninjas.spotaspot.auth.controller;
 
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationRequest;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
+import com.codeninjas.spotaspot.auth.controller.dto.RoleRequest;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -17,7 +22,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -36,27 +40,27 @@ class AuthenticationControllerIntegrationTest {
 
     private final static LocalDate LOCAL_DATE = LocalDate.of(1989, 01, 13);
 
-    private final MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
     private ObjectMapper objectMapper;
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Mock
     private Clock clock;
     private Clock fixedClock;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public AuthenticationControllerIntegrationTest(MockMvc mockMvc, UserRepository userRepository) {
-        this.mockMvc = mockMvc;
-        this.userRepository = userRepository;
-    }
 
     @BeforeEach
     void setUp() {
 
         objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         fixedClock = Clock.fixed(LOCAL_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
         doReturn(fixedClock.instant()).when(clock).instant();
@@ -86,6 +90,7 @@ class AuthenticationControllerIntegrationTest {
                 .role(Role.USER)
                 .build();
 
+
         RegisterRequest request = new RegisterRequest(user);
         // when
         // then
@@ -93,7 +98,6 @@ class AuthenticationControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
-
     }
 
     @WithAnonymousUser

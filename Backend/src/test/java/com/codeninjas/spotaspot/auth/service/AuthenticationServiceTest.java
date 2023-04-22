@@ -100,7 +100,7 @@ class AuthenticationServiceTest {
         verify(userRepository).save(userArgumentCaptor.capture());
         User capturedUser = userArgumentCaptor.getValue();
 
-        assertThat(capturedUser).isEqualTo(user);
+        assertThat(capturedUser).usingRecursiveComparison().isEqualTo(user);
         assertThat(response)
                 .isEqualTo(new AuthenticationResponse("1234"));
     }

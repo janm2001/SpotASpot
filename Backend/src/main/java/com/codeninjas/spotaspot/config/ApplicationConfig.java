@@ -65,4 +65,6 @@ public class ApplicationConfig {
 
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
+
+
 }

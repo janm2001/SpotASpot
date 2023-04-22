@@ -174,7 +174,7 @@ class EventServiceTest {
         ArgumentCaptor<Event> eventArgumentCaptor = ArgumentCaptor.forClass(Event.class);
         verify(eventRepository).save(eventArgumentCaptor.capture());
         Event capturedEvent = eventArgumentCaptor.getValue();
-        assertThat(capturedEvent).isEqualTo(request.toEvent(exampleUser, LocalDateTime.now(clock)));
+        assertThat(capturedEvent).usingRecursiveComparison().isEqualTo(request.toEvent(exampleUser, LocalDateTime.now(clock)));
     }
 
     @Test

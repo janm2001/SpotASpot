@@ -11,10 +11,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class User implements UserDetails  {
     // TODO: Change to UUID
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator", sequenceName = "_user_id_seq", allocationSize = 1)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
@@ -79,5 +80,18 @@ public class User implements UserDetails  {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

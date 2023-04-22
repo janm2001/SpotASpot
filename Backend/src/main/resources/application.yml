@@ -25,3 +25,6 @@ spring:
 
   main:
     banner-mode: off
+
+springdoc:
+  show-actuator: true

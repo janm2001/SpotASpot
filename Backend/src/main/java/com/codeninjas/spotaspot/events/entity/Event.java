@@ -8,7 +8,9 @@ import org.hibernate.Hibernate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_generator")
     @SequenceGenerator(name = "event_generator", sequenceName = "event_id_seq", allocationSize = 1)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String name;
     private String description;
@@ -39,4 +41,17 @@ public class Event {
     private LocalDateTime createdAt;
     @Column (nullable = false)
     private LocalDateTime lastChange;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Event event = (Event) o;
+        return getId() != null && Objects.equals(getId(), event.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
