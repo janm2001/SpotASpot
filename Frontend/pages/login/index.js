@@ -36,7 +36,7 @@ const index = () => {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    
     localStorage.setItem("token", data.token);
 
     router.push("/");
@@ -50,7 +50,7 @@ const index = () => {
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
-      <Container component="main" maxWidth="xs" sx={{height:"75vh"}}>
+      <Container component="main" maxWidth="xs" sx={{height:"85vh"}}>
         <CssBaseline />
         <Box
           sx={{

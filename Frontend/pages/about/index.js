@@ -5,9 +5,17 @@ import logo from '../../public/logosas.png'
 import organizers from '../../public/organizers.jpg'
 import event from '../../public/event.jpg'
 import Image from 'next/image'
+import Head from 'next/head'
 
 const index = () => {
   return (
+    <>
+    <Head>
+        <title>SpotASpot - About</title>
+        <meta name="description" content="SpotASpot - About" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <div className={styles.container}>
       <div className={styles.info}>
         <h3>ABOUT US</h3>
@@ -51,7 +59,7 @@ const index = () => {
         <p>As an organizer, you have the ability to create and manage your own events. The app also provides you with real-time feedback on attendee engagement, allowing you to make adjustments and improvements to your event as needed. </p>
       </div>
       
-    </div>
+    </div></>
   )
 }
 
