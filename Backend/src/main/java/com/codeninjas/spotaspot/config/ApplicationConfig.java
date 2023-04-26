@@ -2,6 +2,8 @@ package com.codeninjas.spotaspot.config;
 
 import com.codeninjas.spotaspot.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.flywaydb.core.Flyway;
+import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

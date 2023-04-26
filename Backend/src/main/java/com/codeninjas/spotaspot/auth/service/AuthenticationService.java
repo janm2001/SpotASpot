@@ -3,7 +3,6 @@ package com.codeninjas.spotaspot.auth.service;
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationRequest;
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationResponse;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
-import com.codeninjas.spotaspot.config.JwtService;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

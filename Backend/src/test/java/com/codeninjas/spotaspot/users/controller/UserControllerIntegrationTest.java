@@ -1,6 +1,6 @@
 package com.codeninjas.spotaspot.users.controller;
 
-import com.codeninjas.spotaspot.config.JwtService;
+import com.codeninjas.spotaspot.auth.service.JwtService;
 import com.codeninjas.spotaspot.users.controller.dto.UserResponse;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;

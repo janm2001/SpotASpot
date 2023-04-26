@@ -3,7 +3,6 @@ package com.codeninjas.spotaspot.auth.service;
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationRequest;
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationResponse;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
-import com.codeninjas.spotaspot.config.JwtService;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
@@ -17,10 +16,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Clock;

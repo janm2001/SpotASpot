@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @JsonSerialize
 public record UserResponse(
-        @NonNull Long id,
+        @NonNull UUID id,
         @NonNull String firstName,
         @NonNull String lastName,
         @NonNull String email,

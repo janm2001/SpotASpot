@@ -1,13 +1,13 @@
 package com.codeninjas.spotaspot.events.service;
 
-import com.codeninjas.spotaspot.config.JwtService;
+import com.codeninjas.spotaspot.auth.service.JwtService;
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
-import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
+import com.codeninjas.spotaspot.exception.EventNotFoundException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;

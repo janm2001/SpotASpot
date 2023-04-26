@@ -1,17 +1,16 @@
 package com.codeninjas.spotaspot.events.service;
 
-import com.codeninjas.spotaspot.config.JwtService;
+import com.codeninjas.spotaspot.auth.service.JwtService;
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
-import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
+import com.codeninjas.spotaspot.exception.EventNotFoundException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidAddEventException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.events.service.exceptions.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
-import jakarta.persistence.PreRemove;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class EventService {
         return eventRepository.findAll(pageable).map(EventResponse::new);
     }
 
-    public Page<EventResponse> getAllEventsForUser(Pageable pageable, Long userId) throws DataAccessException {
+    public Page<EventResponse> getAllEventsForUser(Pageable pageable, UUID userId) throws DataAccessException {
         return eventRepository.findAllByCreatedBy(pageable, userId).map(EventResponse::new);
     }
 

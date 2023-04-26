@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.users.entity;
 
+import com.codeninjas.spotaspot.events.entity.Event;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.*;
@@ -9,9 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Getter
@@ -25,10 +24,8 @@ import java.util.Objects;
 @Table(name = "_user")
 public class User implements UserDetails  {
     @Id
-    // TODO: Change to UUID
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", sequenceName = "_user_id_seq", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
@@ -48,6 +45,13 @@ public class User implements UserDetails  {
     private LocalDateTime lastLogin;
     @Column (nullable = false)
     private LocalDateTime lastChange;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private Set<Event> likedEvents;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,6 @@
 package com.codeninjas.spotaspot.users.service;
 
-import com.codeninjas.spotaspot.config.JwtService;
+import com.codeninjas.spotaspot.auth.service.JwtService;
 import com.codeninjas.spotaspot.users.controller.dto.UserResponse;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

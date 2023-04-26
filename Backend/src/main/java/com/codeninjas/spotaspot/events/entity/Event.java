@@ -7,7 +7,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,6 +43,13 @@ public class Event {
     private LocalDateTime createdAt;
     @Column (nullable = false)
     private LocalDateTime lastChange;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "likes",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> likedBy;
 
     @Override
     public boolean equals(Object o) {

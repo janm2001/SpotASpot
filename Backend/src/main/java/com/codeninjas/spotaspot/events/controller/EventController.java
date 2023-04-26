@@ -5,15 +5,16 @@ import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.service.EventService;
-import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
+import com.codeninjas.spotaspot.exception.EventNotFoundException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -23,12 +24,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/event")
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
+    Logger logger = LoggerFactory.getLogger(EventController.class);
 
     @Operation(
             summary = "Get all events paginated",
@@ -158,6 +162,13 @@ public class EventController {
     public ResponseEntity<?> getAllEvents(
             @ParameterObject Pageable pageable) {
         Page<EventResponse> response;
+
+        logger.debug("Debugging log");
+        logger.info("Info log");
+        logger.warn("Hey, This is a warning!");
+        logger.error("Oops! We have an Error. OK");
+        logger.trace("TRACE");
+
         try {
             response = eventService.getAllEvents(pageable);
         } catch (Exception e) {
@@ -241,7 +252,7 @@ public class EventController {
 
     )
     @GetMapping("/for-user/{userId}")
-    public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable Long userId) {
+    public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) {
         Page<EventResponse> response;
         try {
             response = eventService.getAllEventsForUser(pageable, userId);

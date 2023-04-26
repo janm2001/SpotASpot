@@ -28,3 +28,10 @@ spring:
 
 springdoc:
   show-actuator: true
+
+logging:
+  file:
+    name: "logs/${random.uuid}.log"
+  level:
+    root: info
+    com.codeninjas.spotaspot: trace

@@ -1,13 +1,15 @@
 package com.codeninjas.spotaspot.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class ApiException extends Exception {
-    private final int code;
-    public ApiException (int code, String msg) {
+    private final HttpStatus status;
+    public ApiException (HttpStatus status, String msg) {
         super(msg);
-        this.code = code;
+        this.status = status;
     }
 
-    public int getCode() {
-        return code;
+    public HttpStatus getStatus() {
+        return status;
     }
 }
