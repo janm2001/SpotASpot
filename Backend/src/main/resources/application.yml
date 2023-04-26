@@ -11,7 +11,7 @@ spring:
         max-page-size: 10
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     properties:
       hibernate:
         format_sql: true

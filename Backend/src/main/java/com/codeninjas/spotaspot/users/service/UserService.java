@@ -15,6 +15,7 @@ public class UserService {
     private final JwtService jwtService;
 
     public UserResponse getCurrentUserDetails() throws UsernameNotFoundException {
+        System.out.println(jwtService.getCurrentUser().getAuthorities());
         return new UserResponse(jwtService.getCurrentUser());
     }
 

@@ -2,6 +2,7 @@ package com.codeninjas.spotaspot.auth.controller.dto;
 
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

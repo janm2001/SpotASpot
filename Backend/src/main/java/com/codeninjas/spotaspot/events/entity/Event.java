@@ -2,6 +2,7 @@ package com.codeninjas.spotaspot.events.entity;
 
 import com.codeninjas.spotaspot.users.entity.User;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -10,7 +11,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -34,7 +34,7 @@ public class Event {
     private LocalDateTime dateTime;
     @Column (nullable = false)
     private Boolean isAvailable;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;
     @Column (nullable = false)

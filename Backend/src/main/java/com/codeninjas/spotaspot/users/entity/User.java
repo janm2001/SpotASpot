@@ -1,6 +1,7 @@
 package com.codeninjas.spotaspot.users.entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @Entity
+@Transactional
 @Table(name = "_user")
 public class User implements UserDetails  {
     @Id

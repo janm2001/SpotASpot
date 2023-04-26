@@ -11,6 +11,7 @@ import com.codeninjas.spotaspot.events.service.exceptions.InvalidAddEventExcepti
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.events.service.exceptions.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
+import jakarta.persistence.PreRemove;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -54,8 +56,10 @@ public class EventService {
 
     public void deleteEvent(Long id) throws InvalidDeleteEventException {
         try {
+            System.out.println("KOJI K");
             eventRepository.deleteById(id);
         } catch(DataAccessException e) {
+            e.printStackTrace();
             throw new InvalidDeleteEventException();
         }
     }
@@ -64,7 +68,7 @@ public class EventService {
         Event targetEvent = eventRepository.findById(request.id()).orElseThrow(() ->
                 new EventNotFoundException(request.id()));
         User currentUser = jwtService.getCurrentUser();
-        if (targetEvent.getCreatedBy().getId() != currentUser.getId()) {
+        if (!Objects.equals(targetEvent.getCreatedBy().getId(), currentUser.getId())) {
             throw new UserNotOwnerException();
         }
         eventRepository.save(request.toEventFill(targetEvent, LocalDateTime.now(clock)));
