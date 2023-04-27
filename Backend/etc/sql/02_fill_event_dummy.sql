@@ -7,7 +7,7 @@ INSERT INTO
            'Online',
            '2023-05-30T15:00:00',
            TRUE,
-           2,
+           (SELECT id FROM _user WHERE username = 'IHorvat'),
            now(),
            now());
 
@@ -20,7 +20,7 @@ VALUES('Predavanje o održivosti proizvoda',
        'Unska ul. 3',
        '2023-05-30T16:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -33,7 +33,7 @@ VALUES('Dream Theater koncert',
        'Ul. Vice Vukova 8',
        '2023-05-25T12:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -46,7 +46,7 @@ VALUES('Pub kviz u vintagu',
        'Savska cesta 160',
        '2023-06-05T13:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -59,7 +59,7 @@ VALUES('Utakmica Dinamo Hajduk',
        '8 Mediteranskih Igara 2',
        '2023-05-05T18:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -72,7 +72,7 @@ VALUES('Društvene igre u vintagu',
        'Savska cesta 160',
        '2023-05-01T20:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -85,7 +85,7 @@ VALUES('Natjecanje u League of Legendsu na Feru',
        'Unska ul. 3',
        '2023-04-28T20:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -98,7 +98,7 @@ VALUES('Standup komičar Dino Merlin',
        'Ul. Vuke Vukova 69',
        '2023-04-12T20:00:00',
        FALSE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());
 
@@ -111,6 +111,6 @@ VALUES('Donirajte staru odjeću',
        'Ul. Kvatrića 2',
        '2023-05-16T12:00:00',
        TRUE,
-       2,
+       (SELECT id FROM _user WHERE username = 'IHorvat'),
        now(),
        now());

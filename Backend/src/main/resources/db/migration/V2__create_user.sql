@@ -1,5 +1,5 @@
-CREATE TABLE _user(
-        id BIGSERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS _user(
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4 (),
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
@@ -10,4 +10,3 @@ CREATE TABLE _user(
         last_login TIMESTAMPTZ NOT NULL,
         last_change TIMESTAMPTZ NOT NULL
 );
-ALTER SEQUENCE _user_id_seq INCREMENT 1;

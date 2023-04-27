@@ -1,15 +1,9 @@
 package com.codeninjas.spotaspot.auth.controller.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.NonNull;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponse {
-
-    private String token;
-}
+@JsonSerialize
+public record AuthenticationResponse(
+        @NonNull String token
+) {}

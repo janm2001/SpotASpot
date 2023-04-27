@@ -2,34 +2,32 @@ package com.codeninjas.spotaspot.auth.controller.dto;
 
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequest {
-
-    private String firstName;
-    private String lastName;
-    private String email;
-    private RoleRequest role;
-    private String username;
-    private String password;
+@JsonSerialize
+public record RegisterRequest(
+        @NonNull String firstName,
+        @NonNull String lastName,
+        @NonNull String email,
+        @NonNull RoleRequest role,
+        @NonNull String username,
+        @NonNull String password
+) {
 
     public RegisterRequest(User user) {
-        firstName = user.getFirstName();
-        lastName = user.getLastName();
-        email = user.getEmail();
-        role = RoleRequest.valueOf(user.getRole().toString());
-        username = user.getUsername();
-        password = user.getPassword();
+        this(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                RoleRequest.valueOf(user.getRole().toString()),
+                user.getUsername(),
+                user.getPassword()
+        );
     }
 
     public User toUser(PasswordEncoder passwordEncoder, LocalDateTime localDateTime) {

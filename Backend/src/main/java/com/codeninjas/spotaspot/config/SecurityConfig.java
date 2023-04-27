@@ -1,6 +1,5 @@
 package com.codeninjas.spotaspot.config;
 
-import com.codeninjas.spotaspot.users.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +10,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -26,9 +27,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-                .and()
                 .csrf().disable()
+                .cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
@@ -36,16 +36,31 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/user/get").authenticated()
                 .requestMatchers("/api/v1/event/all").permitAll()
                 .requestMatchers("/api/v1/event/for-user/{id}").permitAll()
-                .requestMatchers("/api/v1/event/{id}").permitAll()
-                .requestMatchers("/api/v1/event/add").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
-                .requestMatchers("/api/v1/event/delete/{id}").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
-                .requestMatchers("/api/v1/event/update").hasAnyRole(Role.ORGANIZER.name(), Role.ADMIN.name())
+                .requestMatchers("/api/v1/event/get/{id}").permitAll()
+                .requestMatchers("/api/v1/event/add").hasAnyAuthority("ORGANIZER")
+                .requestMatchers("/api/v1/event/delete/{id}").hasAnyAuthority("ORGANIZER")
+                .requestMatchers("/api/v1/event/update").hasAnyAuthority("ORGANIZER")
                 .requestMatchers("/api/v1/event/categories").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
-                .anyRequest().denyAll()
+                .requestMatchers("/api/v3/api-docs").permitAll()
+                .requestMatchers("/api/swagger-ui/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        // Don't do this in production, use a proper list  of allowed origins
+        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

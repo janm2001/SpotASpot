@@ -11,7 +11,7 @@ spring:
         max-page-size: 10
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     properties:
       hibernate:
         format_sql: true
@@ -25,3 +25,13 @@ spring:
 
   main:
     banner-mode: off
+
+springdoc:
+  show-actuator: true
+
+logging:
+  file:
+    name: "logs/${random.uuid}.log"
+  level:
+    root: info
+    com.codeninjas.spotaspot: trace

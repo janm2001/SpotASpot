@@ -1,4 +1,4 @@
-package com.codeninjas.spotaspot.config;
+package com.codeninjas.spotaspot.auth.service;
 
 import com.codeninjas.spotaspot.users.entity.User;
 import io.jsonwebtoken.Claims;

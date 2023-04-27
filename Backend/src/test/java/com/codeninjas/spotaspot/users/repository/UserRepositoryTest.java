@@ -34,7 +34,7 @@ class UserRepositoryTest {
         // given
         String username = "Leca";
         User user = User.builder()
-                .id(1)
+                .id(1L)
                 .username(username)
                 .password("1234")
                 .email("Leonardo@gmail.com")
@@ -65,7 +65,7 @@ class UserRepositoryTest {
         // given
         String username = "Leca";
         User user = User.builder()
-                .id(1)
+                .id(1L)
                 .username("Vuka")
                 .password("1234")
                 .email("Leonardo@gmail.com")

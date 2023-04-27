@@ -1,13 +1,13 @@
 package com.codeninjas.spotaspot.events.service;
 
-import com.codeninjas.spotaspot.config.JwtService;
+import com.codeninjas.spotaspot.auth.service.JwtService;
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
-import com.codeninjas.spotaspot.events.service.exceptions.EventNotFoundException;
+import com.codeninjas.spotaspot.exception.EventNotFoundException;
 import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
@@ -25,8 +25,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -35,10 +33,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
@@ -56,7 +52,7 @@ class EventServiceTest {
     private Clock clock;
     @Mock
     private UserService userService;
-    private LocalDateTime timeExample = LocalDateTime.of(2000, 10, 10, 10, 10, 10, 0);
+    private final LocalDateTime timeExample = LocalDateTime.of(2000, 10, 10, 10, 10, 10, 0);
     private Clock fixedClock;
 
     User exampleUser = User.builder()
@@ -65,14 +61,15 @@ class EventServiceTest {
             .email("Leonardo@gmail.com")
             .username("leca12")
             .password("$2y$10$5B8Xl7ENxP2NzfodzcO9q.r8A5NR1/1uPJCjXFZ1y4q6dW337p/YG")
-            .role(Role.USER)
+            .role(Role.ORGANIZER)
             .createdAt(timeExample)
             .lastLogin(timeExample)
+            .lastChange(timeExample)
             .build();
 
     List<Event> exampleEvents = List.of(
             Event.builder()
-                    .id(1)
+                    .id(1L)
                     .name("Programiranje java")
                     .description("Radionica za programiranje u javi")
                     .category(EventCategory.RADIONICA)
@@ -85,7 +82,7 @@ class EventServiceTest {
                     .lastChange(timeExample)
                     .build(),
             Event.builder()
-                    .id(2)
+                    .id(2L)
                     .name("Društvene igre online")
                     .description("Amongus na steamu")
                     .category(EventCategory.IGRA)
@@ -159,19 +156,15 @@ class EventServiceTest {
     @Test
     void addEventShouldAddSpecifiedEvent() throws Exception {
         // given
-        EventAddRequest request = EventAddRequest
-                .builder()
-                .name("Radionica Programiranja u Javi")
-                .description("Programiranje u Javi")
-                .category(EventCategory.RADIONICA)
-                .city(null)
-                .location("Online")
-                .dateTime(timeExample)
-                .isAvailable(true)
-                .build();
-
-
-
+        EventAddRequest request = new EventAddRequest(
+                "Radionica Programiranja u Javi",
+                "Programiranje u Javi",
+                EventCategory.RADIONICA,
+                null,
+                "Online",
+                timeExample,
+                true
+        );
 
         // when
         eventService.addEvent(request);
@@ -181,7 +174,7 @@ class EventServiceTest {
         ArgumentCaptor<Event> eventArgumentCaptor = ArgumentCaptor.forClass(Event.class);
         verify(eventRepository).save(eventArgumentCaptor.capture());
         Event capturedEvent = eventArgumentCaptor.getValue();
-        assertThat(capturedEvent).isEqualTo(request.toEvent(exampleUser, LocalDateTime.now(clock)));
+        assertThat(capturedEvent).usingRecursiveComparison().isEqualTo(request.toEvent(exampleUser, LocalDateTime.now(clock)));
     }
 
     @Test
@@ -203,10 +196,16 @@ class EventServiceTest {
         Event target = exampleEvents.get(1);
 
         eventRepository.saveAll(exampleEvents);
-        EventPutRequest request = new EventPutRequest(target);
-        request.setName("New name");
-        request.setCity(null);
-        request.setDescription("New description");
+        EventPutRequest request = new EventPutRequest(
+                target.getId(),
+                "New name",
+                "New description",
+                target.getCategory(),
+                null,
+                target.getLocation(),
+                target.getDateTime(),
+                target.getIsAvailable()
+        );
 
         doReturn(Optional.of(target)).when(eventRepository).findById(2L);
         // when
