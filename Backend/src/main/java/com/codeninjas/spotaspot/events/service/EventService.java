@@ -7,9 +7,9 @@ import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
 import com.codeninjas.spotaspot.exception.EventNotFoundException;
-import com.codeninjas.spotaspot.events.service.exceptions.InvalidAddEventException;
-import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
-import com.codeninjas.spotaspot.events.service.exceptions.UserNotOwnerException;
+import com.codeninjas.spotaspot.exception.InvalidAddEventException;
+import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
+import com.codeninjas.spotaspot.exception.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -56,11 +56,10 @@ public class EventService {
 
     public void deleteEvent(Long id) throws InvalidDeleteEventException {
         try {
-            System.out.println("KOJI K");
             eventRepository.deleteById(id);
         } catch(DataAccessException e) {
             e.printStackTrace();
-            throw new InvalidDeleteEventException();
+            throw new InvalidDeleteEventException(id);
         }
     }
 

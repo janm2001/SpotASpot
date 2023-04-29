@@ -22,7 +22,55 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(EventNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleException(EventNotFoundException e,
                                                             HttpServletRequest request) {
-        logger.info(request.getRemoteAddr() + " failed to find event. message: " + e.getMessage());
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
+    }
+
+    @ExceptionHandler(UserNotOwnerException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(UserNotOwnerException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
+    }
+
+    @ExceptionHandler(InvalidDeleteEventException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(InvalidDeleteEventException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
+    }
+
+    @ExceptionHandler(InvalidAddEventException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(InvalidAddEventException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
 
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(clock),
