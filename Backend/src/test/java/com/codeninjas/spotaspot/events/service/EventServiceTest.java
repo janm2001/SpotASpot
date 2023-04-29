@@ -8,7 +8,7 @@ import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
 import com.codeninjas.spotaspot.exception.EventNotFoundException;
-import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
+import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.service.UserService;

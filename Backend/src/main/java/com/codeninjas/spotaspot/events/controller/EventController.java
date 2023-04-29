@@ -6,7 +6,7 @@ import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.service.EventService;
 import com.codeninjas.spotaspot.exception.EventNotFoundException;
-import com.codeninjas.spotaspot.events.service.exceptions.InvalidDeleteEventException;
+import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -16,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -160,23 +157,8 @@ public class EventController {
     )
     @GetMapping("/all")
     public ResponseEntity<?> getAllEvents(
-            @ParameterObject Pageable pageable) {
-        Page<EventResponse> response;
-
-        logger.debug("Debugging log");
-        logger.info("Info log");
-        logger.warn("Hey, This is a warning!");
-        logger.error("Oops! We have an Error. OK");
-        logger.trace("TRACE");
-
-        try {
-            response = eventService.getAllEvents(pageable);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
-        return ResponseEntity.ok(response);
+            @ParameterObject Pageable pageable) throws Exception {
+        return ResponseEntity.ok(eventService.getAllEvents(pageable));
     }
 
     @Operation(
@@ -253,15 +235,7 @@ public class EventController {
     )
     @GetMapping("/for-user/{userId}")
     public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) {
-        Page<EventResponse> response;
-        try {
-            response = eventService.getAllEventsForUser(pageable, userId);
-        } catch (DataAccessException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(eventService.getAllEventsForUser(pageable, userId));
     }
 
     @Operation(
@@ -308,15 +282,8 @@ public class EventController {
 
     )
     @GetMapping("/get/{id}")
-    public ResponseEntity<?> getEvent(@PathVariable Long id) {
-        EventResponse response;
-        try {
-            response = eventService.getEvent(id);
-        } catch (EventNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
+    public ResponseEntity<?> getEvent(@PathVariable Long id) throws EventNotFoundException {
+        EventResponse response = eventService.getEvent(id);
         return ResponseEntity.ok(response);
     }
 
@@ -386,15 +353,8 @@ public class EventController {
                             }
                     )
             )
-            EventAddRequest request) {
-        try {
-            eventService.addEvent(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body(e.getMessage());
-        }
+            EventAddRequest request) throws Exception {
+        eventService.addEvent(request);
         return ResponseEntity.ok().build();
     }
 
@@ -437,15 +397,8 @@ public class EventController {
 
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
-        try {
-            System.out.println("Koji kurac");
-            eventService.deleteEvent(id);
-        } catch(InvalidDeleteEventException e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id) throws InvalidDeleteEventException {
+        eventService.deleteEvent(id);
         return ResponseEntity.ok().build();
     }
 
@@ -510,14 +463,10 @@ public class EventController {
                             }
                     )
             )
-            EventPutRequest request) {
-        try {
-            eventService.updateEvent(request);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body(e.getMessage());
-        }
+            EventPutRequest request) throws Exception {
+
+        eventService.updateEvent(request);
+
         return ResponseEntity.ok().build();
     }
 
