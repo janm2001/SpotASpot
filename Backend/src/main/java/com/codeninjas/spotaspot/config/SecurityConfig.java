@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.config;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,16 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().configurationSource(request -> {
-                    final CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowCredentials(true);
-                    // Don't do this in production, use a proper list  of allowed origins
-                    config.setAllowedOrigins(Collections.singletonList("*"));
-                    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
-                    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
-                    return config;
-
-                })
+                .cors()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -73,4 +67,14 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }*/
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
 }
