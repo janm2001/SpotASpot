@@ -1,0 +1,57 @@
+{
+  "forbidden": {
+    "description": "Forbidden",
+    "content": ""
+  },
+  "getAllEvents": {
+    "description": "Successfully returned events",
+    "content": "{\n    \"content\": [\n        {\n            \"id\": 5,\n            \"name\": \"Utakmica Dinamo Hajduk\",\n            \"description\": \"Utakmica u splitu\",\n            \"category\": \"SPORT\",\n            \"city\": \"Split\",\n            \"location\": \"8 Mediteranskih Igara 2\",\n            \"dateTime\": \"2023-05-05T20:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Standup komičar Dino Merlin\",\n            \"description\": \"Dođite i gledajte Dinu Merlina na prvom standupu\",\n            \"category\": \"STANDUP\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Ul. Vuke Vukova 69\",\n            \"dateTime\": \"2023-04-12T22:00:00\",\n            \"isAvailable\": false,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Pub kviz u vintagu\",\n            \"description\": \"Pub kniz u vintagu\",\n            \"category\": \"KVIZ\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Savska cesta 160\",\n            \"dateTime\": \"2023-06-05T15:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"Programiranje u javi\",\n            \"description\": \"Online radionica programiranja u javi, link: blabla.com/java\",\n            \"category\": \"RADIONICA\",\n            \"city\": null,\n            \"location\": \"Online\",\n            \"dateTime\": \"2023-05-30T17:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Predavanje o održivosti proizvoda\",\n            \"description\": \"Predavanje o održivosti proizvoda na feru, vodi profesor Blabla Blabal.\",\n            \"category\": \"PREDAVANJE\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Unska ul. 3\",\n            \"dateTime\": \"2023-05-30T18:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": false,\n            \"sorted\": true,\n            \"unsorted\": false\n        },\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 5,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"totalPages\": 2,\n    \"totalElements\": 9,\n    \"last\": false,\n    \"size\": 5,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": false,\n        \"sorted\": true,\n        \"unsorted\": false\n    },\n    \"first\": true,\n    \"numberOfElements\": 5,\n    \"empty\": false\n}"
+  },
+  "getAllEventsForUser": {
+    "description": "Successfully returned events for user",
+    "content": "{\n    \"content\": [\n        {\n            \"id\": 1,\n            \"name\": \"Programiranje u javi\",\n            \"description\": \"Online radionica programiranja u javi, link: blabla.com/java\",\n            \"category\": \"RADIONICA\",\n            \"city\": null,\n            \"location\": \"Online\",\n            \"dateTime\": \"2023-05-30T17:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Predavanje o održivosti proizvoda\",\n            \"description\": \"Predavanje o održivosti proizvoda na feru, vodi profesor Blabla Blabal.\",\n            \"category\": \"PREDAVANJE\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Unska ul. 3\",\n            \"dateTime\": \"2023-05-30T18:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Dream Theater koncert\",\n            \"description\": \"Koncert u areni zagreb Dream Theatera\",\n            \"category\": \"KONCERT\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Ul. Vice Vukova 8\",\n            \"dateTime\": \"2023-05-25T14:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Pub kviz u vintagu\",\n            \"description\": \"Pub kniz u vintagu\",\n            \"category\": \"KVIZ\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Savska cesta 160\",\n            \"dateTime\": \"2023-06-05T15:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Utakmica Dinamo Hajduk\",\n            \"description\": \"Utakmica u splitu\",\n            \"category\": \"SPORT\",\n            \"city\": \"Split\",\n            \"location\": \"8 Mediteranskih Igara 2\",\n            \"dateTime\": \"2023-05-05T20:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Društvene igre u vintagu\",\n            \"description\": \"Dođite i zaigrajte društvene igre u vintagu\",\n            \"category\": \"IGRA\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Savska cesta 160\",\n            \"dateTime\": \"2023-05-01T22:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Natjecanje u League of Legendsu na Feru\",\n            \"description\": \"Dođite i gledajte naš tim u esportsu\",\n            \"category\": \"NATJECANJE\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Unska ul. 3\",\n            \"dateTime\": \"2023-04-28T22:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Standup komičar Dino Merlin\",\n            \"description\": \"Dođite i gledajte Dinu Merlina na prvom standupu\",\n            \"category\": \"STANDUP\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Ul. Vuke Vukova 69\",\n            \"dateTime\": \"2023-04-12T22:00:00\",\n            \"isAvailable\": false,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Donirajte staru odjeću\",\n            \"description\": \"Dođite i donirajte staru odjeću u kvartu Kvatrić\",\n            \"category\": \"DOBROTVORNI\",\n            \"city\": \"Zagreb\",\n            \"location\": \"Ul. Kvatrića 2\",\n            \"dateTime\": \"2023-05-16T14:00:00\",\n            \"isAvailable\": true,\n            \"createdBy\": \"IHorvat\",\n            \"createdAt\": \"2023-05-03T20:02:29.365475\",\n            \"lastChange\": \"2023-05-03T20:02:29.365475\"\n        }\n    ],\n    \"pageable\": {\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 20,\n        \"paged\": true,\n        \"unpaged\": false\n    },\n    \"totalPages\": 1,\n    \"totalElements\": 9,\n    \"last\": true,\n    \"size\": 20,\n    \"number\": 0,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"first\": true,\n    \"numberOfElements\": 9,\n    \"empty\": false\n}"
+  },
+  "deleteEvent": {
+    "description": "Successfully deleted event",
+    "content": ""
+  },
+  "addEvent": {
+    "description": "Successfully created event",
+    "content": ""
+  },
+  "updateEvent": {
+    "description": "Successfully updated event",
+    "content": ""
+  },
+  "getEvent": {
+    "description": "Successfully returned event",
+    "content": "{\n    \"id\": 7,\n    \"name\": \"Natjecanje u League of Legendsu na Feru\",\n    \"description\": \"Dođite i gledajte naš tim u esportsu\",\n    \"category\": \"NATJECANJE\",\n    \"city\": \"Zagreb\",\n    \"location\": \"Unska ul. 3\",\n    \"dateTime\": \"2023-04-28T22:00:00\",\n    \"isAvailable\": true,\n    \"createdBy\": \"IHorvat\",\n    \"createdAt\": \"2023-05-03T20:02:29.365475\",\n    \"lastChange\": \"2023-05-03T20:02:29.365475\"\n}"
+  },
+  "getEventNotFound": {
+    "description": "Event not found",
+    "content": "{\n    \"timestamp\": \"2023-05-03T20:06:01.619624522\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Event 11 not found\",\n    \"path\": \"/api/v1/event/get/11\"\n}"
+  },
+  "getCategories": {
+    "description": "Successfully returned categories",
+    "content": ""
+  },
+
+
+  "register": {
+    "description": "Successfully registered",
+    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjgzMTM2NzM3LCJleHAiOjE2ODMxMzgxNzd9.7wgA9Ne1PdgA0ELnhNQJuDSynI80HuiplYMZbiJa4Ww\"\n}"
+  },
+  "registerFailed": {
+    "description": "Could not register",
+    "content": "{\n    \"timestamp\": \"2023-05-03T19:49:31.768487817\",\n    \"status\": 403,\n    \"error\": \"Forbidden\",\n    \"message\": \"could not execute statement; SQL [n/a]; constraint [_user_email_key]\",\n    \"path\": \"/api/v1/auth/register\"\n}"
+  },
+  "authenticate": {
+    "description": "Successfully authenticated",
+    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjgzMTM2NzM3LCJleHAiOjE2ODMxMzgxNzd9.7wgA9Ne1PdgA0ELnhNQJuDSynI80HuiplYMZbiJa4Ww\"\n}"
+  },
+  "authenticateFailed": {
+    "description": "Bad credentials",
+    "content": "{\n    \"timestamp\": \"2023-05-03T19:59:43.162664911\",\n    \"status\": 403,\n    \"error\": \"Forbidden\",\n    \"message\": \"Wrong username or password\",\n    \"path\": \"/api/v1/auth/authenticate\"\n}"
+  }
+
+}

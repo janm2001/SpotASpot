@@ -11,11 +11,13 @@ import com.codeninjas.spotaspot.exception.InvalidAddEventException;
 import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.exception.UserNotOwnerException;
 import com.codeninjas.spotaspot.users.entity.User;
+import com.codeninjas.spotaspot.util.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -28,9 +30,10 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final JwtService jwtService;
+    private final StorageService storageService;
     private final Clock clock;
 
-    public Page<EventResponse> getAllEvents(Pageable pageable) throws Exception {
+    public Page<EventResponse> getAllEvents(Pageable pageable) {
         return eventRepository.findAll(pageable).map(EventResponse::new);
     }
 
@@ -43,9 +46,11 @@ public class EventService {
         return new EventResponse(event);
     }
 
-    public void addEvent(EventAddRequest eventAddRequest) throws Exception {
+    public void addEvent(EventAddRequest eventAddRequest, MultipartFile file) throws Exception {
         User user = jwtService.getCurrentUser();
         Event event = eventAddRequest.toEvent(user, LocalDateTime.now(clock));
+
+        storageService.store(file);
         try {
             eventRepository.save(event);
         } catch(DataAccessException e) {

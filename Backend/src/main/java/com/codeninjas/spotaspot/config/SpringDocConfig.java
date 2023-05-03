@@ -1,13 +1,30 @@
 package com.codeninjas.spotaspot.config;
 
+import com.codeninjas.spotaspot.config.dto.SwaggerResponse;
+import com.codeninjas.spotaspot.util.ReadJsonFileToJsonObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.json.JSONObject;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @OpenAPIDefinition
 @Configuration
@@ -18,10 +35,15 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer"
 )
 public class SpringDocConfig {
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Bean
-    public OpenAPI baseOpenAPI() {
+    public OpenAPI baseOpenAPI() throws IOException {
+        Components components = new Components();
+        loadResponsesFromJSON().forEach(components::addResponses);
+
         return new OpenAPI()
+                .components(components)
                 .info(new Info().title("Spot a Spot API Docs")
                 .version("1.0.0")
                 .description("SpotASpot je aplikacija za događaje koja korisnicima omogućuje pretraživanje i " +
@@ -59,5 +81,35 @@ public class SpringDocConfig {
                 .group("User")
                 .pathsToMatch(paths)
                 .build();
+    }
+
+    private Map<String, ApiResponse> loadResponsesFromJSON() throws IOException {
+
+        JSONObject responses = ReadJsonFileToJsonObject.read("src/main/resources/openapi/responses.json");
+
+        Map<String, ApiResponse> result = new HashMap<>();
+
+        Set<String> arr = responses.keySet();
+        arr.forEach(name -> {
+            try {
+                SwaggerResponse res = objectMapper.readValue(responses.get(name).toString(), SwaggerResponse.class);
+
+                ApiResponse apiResponse = new ApiResponse().content(
+                        new Content().addMediaType(MediaType.APPLICATION_JSON_VALUE,
+                                new io.swagger.v3.oas.models.media.MediaType().addExamples(
+                                        "default",
+                                        new Example().value(res.content())
+                                ))
+                ).description(res.description());
+
+                result.put(name, apiResponse);
+
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        return result;
     }
 }
