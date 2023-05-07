@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import { useRouter } from "next/router";
-import { CgProfile} from 'react-icons/cg';
+import { CgProfile } from "react-icons/cg";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
-import { Paper, MenuItem, MenuList, ListItemText,Button } from "@mui/material";
+import { Paper, MenuItem, MenuList, ListItemText, Button } from "@mui/material";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -28,13 +28,6 @@ const Navbar = () => {
     setProfileOpen(false);
     router.push("/");
   };
-
-  console.log(profileOpen);
-
-
-  
-
-  
 
   return (
     <nav className={styles.nav}>
@@ -87,25 +80,26 @@ const Navbar = () => {
               </Button>
               {profileOpen && (
                 <Paper
-                  
                   sx={{
-                    position:"absolute",
-                    textAlign:"center",
-                    paddingRight:'2rem',
-                    zIndex:"99",
-                    backgroundColor:"#121212",
-                    color:"#fff"
+                    position: "absolute",
+                    textAlign: "center",
+                    paddingRight: "2rem",
+                    zIndex: "99",
+                    backgroundColor: "#121212",
+                    color: "#fff",
                   }}
                 >
-                  <MenuList >
-                    <MenuItem >
-                      <ListItemText inset >
+                  <MenuList>
+                    <MenuItem>
+                      <ListItemText inset>
                         <Link href="profile">Profile</Link>
                       </ListItemText>
                     </MenuItem>
                     <MenuItem>
                       <ListItemText inset>
-                        <Link href="/" onClick={handleLogout}>Logout</Link>
+                        <Link href="/" onClick={handleLogout}>
+                          Logout
+                        </Link>
                       </ListItemText>
                     </MenuItem>
                   </MenuList>

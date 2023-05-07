@@ -7,13 +7,13 @@ import Link from "next/link";
 import styles from "@/styles/EventDetails.module.css";
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
-import { Typography, Rating,Button } from "@mui/material";
+import { Typography, Rating, Button } from "@mui/material";
 
 const EventDetails = () => {
   const router = useRouter();
   console.log(router);
   const { id } = router.query;
-  const [rating,setRating] = useState(null);
+  const [rating, setRating] = useState(null);
 
   const event = EventsData.events.filter((event) => event.id.toString() === id);
 
@@ -28,9 +28,8 @@ const EventDetails = () => {
               <Image
                 src={e.image}
                 alt=""
-                width={500}
-                height={400}
-                quality={100}
+                className={styles.img}
+                layout="fill"
               />
             </div>
 
@@ -39,7 +38,7 @@ const EventDetails = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ color: "#fff", fontSize: "1.1rem",margin:"0.5rem 0" }}
+                sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
                 <RxCalendar /> {e.date}
               </Typography>
@@ -47,7 +46,7 @@ const EventDetails = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ color: "#fff", fontSize: "1.1rem",margin:"0.5rem 0" }}
+                sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
                 <TiLocation /> {e.time}
               </Typography>
@@ -60,16 +59,16 @@ const EventDetails = () => {
                 }}
                 size="large"
                 sx={{
-                  margin:"1rem 0",
+                  margin: "1rem 0",
                   "& .MuiRating-iconEmpty": {
-                    color: "#fff"
+                    color: "#fff",
                   },
                   "& .MuiRating-iconFilled": {
-                    color: "#ECB365"
+                    color: "#ECB365",
                   },
                   "& .MuiRating-iconHover": {
-                    color: "#ECB365"
-                  }
+                    color: "#ECB365",
+                  },
                 }}
               />
               <br />
@@ -77,12 +76,12 @@ const EventDetails = () => {
               <Button className={styles.button}>Going</Button>
             </div>
           </div>
-
-          <h3 className={styles.description}>Description</h3>
-          <p>{e.description}</p>
+          <div className={styles.desc}>
+            <h3 className={styles.description}>Description</h3>
+            <p>{e.description}</p>
+          </div>
         </div>
       ))}
-      <Link href="/events">Back to Events</Link>
     </div>
   );
 };
