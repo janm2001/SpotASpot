@@ -7,30 +7,29 @@ import Link from "next/link";
 import styles from "@/styles/EventDetails.module.css";
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
-import { Typography, Rating,Button } from "@mui/material";
+import { Typography, Rating, Button } from "@mui/material";
 
 const PopularEventDetails = () => {
   const router = useRouter();
-  
+
   const { id } = router.query;
-  const [rating,setRating] = useState(null);
+  const [rating, setRating] = useState(null);
 
-  const event = PopularEventsData.events.filter((event) => event.id.toString() === id);
-
-  
+  const event = PopularEventsData.events.filter(
+    (event) => event.id.toString() === id
+  );
 
   return (
     <div>
       {event.map((e) => (
         <div key={e.id} className={styles.eventDetails}>
           <div className={styles.wrap}>
-            <div className={styles.image}>
+            <div className={styles.img}>
               <Image
                 src={e.image}
                 alt=""
-                width={500}
-                height={400}
-                quality={100}
+                layout="fill"
+                className={styles.image}
               />
             </div>
 
@@ -39,7 +38,7 @@ const PopularEventDetails = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ color: "#fff", fontSize: "1.1rem",margin:"0.5rem 0" }}
+                sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
                 <RxCalendar /> {e.time}
               </Typography>
@@ -47,7 +46,7 @@ const PopularEventDetails = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ color: "#fff", fontSize: "1.1rem",margin:"0.5rem 0" }}
+                sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
                 <TiLocation /> {e.location}
               </Typography>
@@ -60,16 +59,16 @@ const PopularEventDetails = () => {
                 }}
                 size="large"
                 sx={{
-                  margin:"1rem 0",
+                  margin: "1rem 0",
                   "& .MuiRating-iconEmpty": {
-                    color: "#fff"
+                    color: "#fff",
                   },
                   "& .MuiRating-iconFilled": {
-                    color: "#ECB365"
+                    color: "#ECB365",
                   },
                   "& .MuiRating-iconHover": {
-                    color: "#ECB365"
-                  }
+                    color: "#ECB365",
+                  },
                 }}
               />
               <br />
@@ -78,8 +77,10 @@ const PopularEventDetails = () => {
             </div>
           </div>
 
-          <h3 className={styles.description}>Description</h3>
-          <p>{e.description}</p>
+          <div className={styles.desc}>
+            <h3 className={styles.description}>Description</h3>
+            <p>{e.description}</p>
+          </div>
         </div>
       ))}
       <Link href="/">Back to Home</Link>
