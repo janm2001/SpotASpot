@@ -20,13 +20,13 @@ import { useRouter } from "next/router";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const index = () => {
-  const BASE_URL = 'http://localhost:8080'
+  const BASE_URL = "http://localhost:8080";
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const submitData = new FormData(event.currentTarget);
-    const response = await fetch(BASE_URL+"/api/v1/auth/register", {
+    const response = await fetch(BASE_URL + "/api/v1/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,8 @@ const index = () => {
       }),
     });
     const data = await response.json();
-    
+    console.log(data);
+
     localStorage.setItem("token", data.token);
 
     router.push("/");
@@ -112,7 +113,7 @@ const index = () => {
                 defaultValue={"USER"}
               >
                 <MenuItem value={"USER"}>User</MenuItem>
-                <MenuItem value={"ORGANIZOR"}>Organizor</MenuItem>
+                <MenuItem value={"ORGANIZER"}>Organizer</MenuItem>
               </Select>
               <TextField
                 margin="normal"

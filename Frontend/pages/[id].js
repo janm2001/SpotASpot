@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import PopularEventsData from "@/data/PopularEventsData";
@@ -13,20 +13,44 @@ const PopularEventDetails = () => {
   const router = useRouter();
 
   const { id } = router.query;
+  console.log("Id", id);
   const [rating, setRating] = useState(null);
+  const [data, setData] = useState([]);
 
-  const event = PopularEventsData.events.filter(
-    (event) => event.id.toString() === id
-  );
+  // const event = PopularEventsData.events.filter(
+  //   (event) => event.id.toString() === id
+  // );
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await fetch(
+        "http://localhost:8080/api/v1/event/get/" + id,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      const getData = await response.json();
+      setData(getData);
+    };
+    fetchEvents();
+  }, [id]);
+
+  console.log(data);
 
   return (
     <div>
-      {event.map((e) => (
-        <div key={e.id} className={styles.eventDetails}>
+      {data.id && (
+        <div key={data.id} className={styles.eventDetails}>
           <div className={styles.wrap}>
             <div className={styles.img}>
               <Image
-                src={e.image}
+                src={
+                  "https://source.unsplash.com/800x600/?" +
+                  data.name.split("")[0]
+                }
                 alt=""
                 layout="fill"
                 className={styles.image}
@@ -34,13 +58,13 @@ const PopularEventDetails = () => {
             </div>
 
             <div className={styles.eventInfo}>
-              <h1 className={styles.header}>{e.name}</h1>
+              <h1 className={styles.header}>{data.name}</h1>
               <Typography
                 variant="body2"
                 color="text.secondary"
                 sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
-                <RxCalendar /> {e.time}
+                <RxCalendar /> {data.dateTime}
               </Typography>
 
               <Typography
@@ -48,7 +72,7 @@ const PopularEventDetails = () => {
                 color="text.secondary"
                 sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
-                <TiLocation /> {e.location}
+                <TiLocation /> {data.location}
               </Typography>
 
               <Rating
@@ -79,10 +103,10 @@ const PopularEventDetails = () => {
 
           <div className={styles.desc}>
             <h3 className={styles.description}>Description</h3>
-            <p>{e.description}</p>
+            <p>{data.description}</p>
           </div>
         </div>
-      ))}
+      )}
       <Link href="/">Back to Home</Link>
     </div>
   );
