@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.css";
 import Carousel from "react-material-ui-carousel";
 import CarouselItem from "@/components/CarouselItem/CarouselItem";
 import PopularEvent from "@/components/PopularEvent/PopularEvent";
+import favicon from "../public/favicon/favicon-16x16.png";
 
 import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import { useEffect, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [data, setData] = useState([]);
   const dummyCarouselEvents = [
     {
       id: 1,
@@ -154,19 +156,19 @@ export default function Home() {
           "Access-Control-Allow-Origin": "*",
         },
       });
-      const data = await response.json();
-      console.log(data);
+      const getData = await response.json();
+      setData(getData);
     };
     fetchEvents();
   }, []);
-
+  console.log(data);
   return (
     <>
       <Head>
         <title>SpotASpot - Home</title>
         <meta name="description" content="SpotASpot - Home" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={favicon} />
       </Head>
       <main>
         <Carousel>
@@ -178,9 +180,10 @@ export default function Home() {
         <h2 className={styles.popularEventsTitle}>Popular Events</h2>
 
         <div className={styles.popularEvents}>
-          {dummyEvents.map((event) => (
-            <PopularEvent key={event.id} {...{ ...event }} />
-          ))}
+          {data.content &&
+            data.content.map((event) => (
+              <PopularEvent key={event.id} {...{ ...event }} />
+            ))}
         </div>
       </main>
     </>

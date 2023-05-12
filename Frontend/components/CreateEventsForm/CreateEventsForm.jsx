@@ -9,6 +9,7 @@ import {
   Container,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useRouter } from "next/router";
 
 const CreateEventsForm = (props) => {
   const darkTheme = createTheme({
@@ -17,28 +18,36 @@ const CreateEventsForm = (props) => {
     },
   });
 
+  const BASE_URL = "http://localhost:8080";
+  const router = useRouter();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const submitData = new FormData(event.currentTarget);
+    const token = localStorage.getItem("token");
     const response = await fetch(BASE_URL + "/api/v1/event/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name: submitData.get("name"),
         description: submitData.get("description"),
         category: submitData.get("category"),
         city: submitData.get("city"),
-        locationn: submitData.get("location"),
+        location: submitData.get("location"),
         dateTime: submitData.get("dateTime"),
         isAvailable: true,
       }),
     });
-    const data = await response.json();
-
-    localStorage.setItem("token", data.token);
+    // console.log(response.status);
+    // console.log(await response.text());
+    if (!response.ok) {
+      console.log("error");
+      return;
+    }
 
     router.push("/");
   };
@@ -119,10 +128,11 @@ const CreateEventsForm = (props) => {
               <TextField
                 margin="normal"
                 id="dateTime"
+                name="dateTime"
                 required
                 fullWidth
                 label="Pick a Date"
-                type="datetime-local"
+                type="dateTime"
                 defaultValue="2023-05-24T10:30"
                 InputLabelProps={{
                   shrink: true,

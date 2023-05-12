@@ -15,10 +15,11 @@ const PopularEvent = ({
   name,
   description,
   image,
-  time,
+  dateTime,
   location,
   price,
   id,
+  category,
 }) => {
   return (
     <Link href={`/${id}`}>
@@ -27,7 +28,7 @@ const PopularEvent = ({
           <CardMedia
             className={styles.image}
             sx={{ height: 200 }}
-            image={image}
+            image={"https://source.unsplash.com/800x600/?" + name.split("")[0]}
             title=""
           />
           <Typography
@@ -46,7 +47,7 @@ const PopularEvent = ({
             color="text.secondary"
             sx={{ color: "#ECB365", fontSize: "1.1rem" }}
           >
-            <RxCalendar /> {time}
+            <RxCalendar /> {dateTime}
           </Typography>
 
           <Typography
@@ -61,7 +62,7 @@ const PopularEvent = ({
             variant="body2"
             sx={{
               marginTop: "1rem",
-              maxHeight: "40px",
+              height: "40px",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "no-wrap",
@@ -71,7 +72,6 @@ const PopularEvent = ({
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-          <h6 className={styles.price}>{price}$</h6>
           <Button size="small">Learn More</Button>
         </CardActions>
       </Card>

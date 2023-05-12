@@ -3,7 +3,7 @@ import styles from "@/styles/OrganizorEvents.module.css";
 import Button from "../Button/Button";
 import CreateEventsForm from "../CreateEventsForm/CreateEventsForm";
 
-const OrganizorEvents = () => {
+const OrganizorEvents = ({ role }) => {
   const [buttonActive, setButtonActive] = useState(false);
   console.log(buttonActive);
   return (
@@ -14,6 +14,7 @@ const OrganizorEvents = () => {
         <CreateEventsForm
           buttonActive={buttonActive}
           setButtonActive={setButtonActive}
+          role={role}
         />
       )}
     </div>

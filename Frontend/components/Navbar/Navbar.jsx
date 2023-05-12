@@ -7,6 +7,8 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
 import { Paper, MenuItem, MenuList, ListItemText, Button } from "@mui/material";
+import Logo from "../../public/favicon/android-chrome-192x192.png";
+import Image from "next/image";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -32,8 +34,9 @@ const Navbar = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.wrap}>
-        <div className={styles.brand}>
-          <Link href="/">
+        <div>
+          <Link href="/" className={styles.brand} aria-disabled>
+            <Image src={Logo} width={100} height={75} alt="Logo" />
             <h2 className="header">SpotASpot</h2>
           </Link>
         </div>
@@ -84,7 +87,7 @@ const Navbar = () => {
                     position: "absolute",
                     textAlign: "center",
                     paddingRight: "2rem",
-                    zIndex: "99",
+                    zIndex: 99,
                     backgroundColor: "#121212",
                     color: "#fff",
                   }}
