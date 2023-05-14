@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS event(
         category TEXT NOT NULL,
         city TEXT,
         location TEXT NOT NULL,
+        image_id VARCHAR(36) UNIQUE,
         date_time TIMESTAMPTZ NOT NULL,
         is_available BOOLEAN NOT NULL,
         created_by UUID CONSTRAINT user_fk REFERENCES _user(id),

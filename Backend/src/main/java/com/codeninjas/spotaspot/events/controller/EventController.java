@@ -1,15 +1,15 @@
 package com.codeninjas.spotaspot.events.controller;
 
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
+import com.codeninjas.spotaspot.events.controller.dto.EventDTO;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
-import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.service.EventService;
 import com.codeninjas.spotaspot.exception.EventNotFoundException;
 import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +17,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/event")
+@RequestMapping("/api/v1/event/")
 @RequiredArgsConstructor
 public class EventController {
 
@@ -34,130 +36,11 @@ public class EventController {
     @Operation(
             summary = "Get all events paginated",
             description = "Get all events paginated",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully returned events",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"content\": [\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 5,\n" +
-                                                            "            \"name\": \"Utakmica Dinamo Hajduk\",\n" +
-                                                            "            \"description\": \"Utakmica u splitu\",\n" +
-                                                            "            \"category\": \"SPORT\",\n" +
-                                                            "            \"city\": \"Split\",\n" +
-                                                            "            \"location\": \"8 Mediteranskih Igara 2\",\n" +
-                                                            "            \"dateTime\": \"2023-05-05T18:00:00\",\n" +
-                                                            "            \"isAvailable\": true,\n" +
-                                                            "            \"createdBy\": \"IHorvat\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "        },\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 8,\n" +
-                                                            "            \"name\": \"Standup komičar Dino Merlin\",\n" +
-                                                            "            \"description\": \"Dođite i gledajte Dinu Merlina na prvom standupu\",\n" +
-                                                            "            \"category\": \"STANDUP\",\n" +
-                                                            "            \"city\": \"Zagreb\",\n" +
-                                                            "            \"location\": \"Ul. Vuke Vukova 69\",\n" +
-                                                            "            \"dateTime\": \"2023-04-12T20:00:00\",\n" +
-                                                            "            \"isAvailable\": false,\n" +
-                                                            "            \"createdBy\": \"IHorvat\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "        },\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 4,\n" +
-                                                            "            \"name\": \"Pub kviz u vintagu\",\n" +
-                                                            "            \"description\": \"Pub kniz u vintagu\",\n" +
-                                                            "            \"category\": \"KVIZ\",\n" +
-                                                            "            \"city\": \"Zagreb\",\n" +
-                                                            "            \"location\": \"Savska cesta 160\",\n" +
-                                                            "            \"dateTime\": \"2023-06-05T13:00:00\",\n" +
-                                                            "            \"isAvailable\": true,\n" +
-                                                            "            \"createdBy\": \"IHorvat\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "        },\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 10,\n" +
-                                                            "            \"name\": \"Programiranje java\",\n" +
-                                                            "            \"description\": \"Radionica za programiranje u javi\",\n" +
-                                                            "            \"category\": \"RADIONICA\",\n" +
-                                                            "            \"city\": \"Zagreb\",\n" +
-                                                            "            \"location\": \"Strojarska\",\n" +
-                                                            "            \"dateTime\": \"2023-03-30T16:00:00\",\n" +
-                                                            "            \"isAvailable\": true,\n" +
-                                                            "            \"createdBy\": \"LeoOrg\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:28:01.705542\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:28:01.705542\"\n" +
-                                                            "        },\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 2,\n" +
-                                                            "            \"name\": \"Predavanje o održivosti proizvoda\",\n" +
-                                                            "            \"description\": \"Predavanje o održivosti proizvoda na feru, vodi profesor Blabla Blabal.\",\n" +
-                                                            "            \"category\": \"PREDAVANJE\",\n" +
-                                                            "            \"city\": \"Zagreb\",\n" +
-                                                            "            \"location\": \"Unska ul. 3\",\n" +
-                                                            "            \"dateTime\": \"2023-05-30T16:00:00\",\n" +
-                                                            "            \"isAvailable\": true,\n" +
-                                                            "            \"createdBy\": \"IHorvat\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "        }\n" +
-                                                            "    ],\n" +
-                                                            "    \"pageable\": {\n" +
-                                                            "        \"sort\": {\n" +
-                                                            "            \"empty\": false,\n" +
-                                                            "            \"sorted\": true,\n" +
-                                                            "            \"unsorted\": false\n" +
-                                                            "        },\n" +
-                                                            "        \"offset\": 0,\n" +
-                                                            "        \"pageNumber\": 0,\n" +
-                                                            "        \"pageSize\": 5,\n" +
-                                                            "        \"paged\": true,\n" +
-                                                            "        \"unpaged\": false\n" +
-                                                            "    },\n" +
-                                                            "    \"totalPages\": 2,\n" +
-                                                            "    \"totalElements\": 9,\n" +
-                                                            "    \"last\": false,\n" +
-                                                            "    \"size\": 5,\n" +
-                                                            "    \"number\": 0,\n" +
-                                                            "    \"sort\": {\n" +
-                                                            "        \"empty\": false,\n" +
-                                                            "        \"sorted\": true,\n" +
-                                                            "        \"unsorted\": false\n" +
-                                                            "    },\n" +
-                                                            "    \"first\": true,\n" +
-                                                            "    \"numberOfElements\": 5,\n" +
-                                                            "    \"empty\": false\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not found",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = ""
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @GetMapping("/all")
+            responses = { @ApiResponse(responseCode = "200", ref = "getAllEvents200") })
+    @GetMapping("all")
     public ResponseEntity<?> getAllEvents(
-            @ParameterObject Pageable pageable) throws Exception {
+            @ParameterObject Pageable pageable) {
+
         return ResponseEntity.ok(eventService.getAllEvents(pageable));
     }
 
@@ -165,75 +48,9 @@ public class EventController {
             summary = "Get all events created by user paginated",
             description = "Get all events created by user paginated",
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully returned events",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"content\": [\n" +
-                                                            "        {\n" +
-                                                            "            \"id\": 10,\n" +
-                                                            "            \"name\": \"Programiranje java\",\n" +
-                                                            "            \"description\": \"Radionica za programiranje u javi\",\n" +
-                                                            "            \"category\": \"RADIONICA\",\n" +
-                                                            "            \"city\": \"Zagreb\",\n" +
-                                                            "            \"location\": \"Strojarska\",\n" +
-                                                            "            \"dateTime\": \"2023-03-30T16:00:00\",\n" +
-                                                            "            \"isAvailable\": true,\n" +
-                                                            "            \"createdBy\": \"LeoOrg\",\n" +
-                                                            "            \"createdAt\": \"2023-04-14T17:28:01.705542\",\n" +
-                                                            "            \"lastChange\": \"2023-04-14T17:28:01.705542\"\n" +
-                                                            "        }\n" +
-                                                            "    ],\n" +
-                                                            "    \"pageable\": {\n" +
-                                                            "        \"sort\": {\n" +
-                                                            "            \"empty\": true,\n" +
-                                                            "            \"sorted\": false,\n" +
-                                                            "            \"unsorted\": true\n" +
-                                                            "        },\n" +
-                                                            "        \"offset\": 0,\n" +
-                                                            "        \"pageNumber\": 0,\n" +
-                                                            "        \"pageSize\": 20,\n" +
-                                                            "        \"paged\": true,\n" +
-                                                            "        \"unpaged\": false\n" +
-                                                            "    },\n" +
-                                                            "    \"totalPages\": 1,\n" +
-                                                            "    \"totalElements\": 1,\n" +
-                                                            "    \"last\": true,\n" +
-                                                            "    \"size\": 20,\n" +
-                                                            "    \"number\": 0,\n" +
-                                                            "    \"sort\": {\n" +
-                                                            "        \"empty\": true,\n" +
-                                                            "        \"sorted\": false,\n" +
-                                                            "        \"unsorted\": true\n" +
-                                                            "    },\n" +
-                                                            "    \"numberOfElements\": 1,\n" +
-                                                            "    \"first\": true,\n" +
-                                                            "    \"empty\": false\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not found",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = ""
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @GetMapping("/for-user/{userId}")
+                    @ApiResponse(responseCode = "200", ref = "getAllEventsForUser"),
+                    @ApiResponse(responseCode = "404") })
+    @GetMapping("for-user/{userId}")
     public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) {
         return ResponseEntity.ok(eventService.getAllEventsForUser(pageable, userId));
     }
@@ -242,48 +59,11 @@ public class EventController {
             summary = "Get event by id",
             description = "Get event by id",
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully returned event",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"id\": 2,\n" +
-                                                            "    \"name\": \"Predavanje o održivosti proizvoda\",\n" +
-                                                            "    \"description\": \"Predavanje o održivosti proizvoda na feru, vodi profesor Blabla Blabal.\",\n" +
-                                                            "    \"category\": \"PREDAVANJE\",\n" +
-                                                            "    \"city\": \"Zagreb\",\n" +
-                                                            "    \"location\": \"Unska ul. 3\",\n" +
-                                                            "    \"dateTime\": \"2023-05-30T16:00:00\",\n" +
-                                                            "    \"isAvailable\": true,\n" +
-                                                            "    \"createdBy\": \"IHorvat\",\n" +
-                                                            "    \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "    \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not found",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "Event 11 not found"
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @GetMapping("/get/{id}")
+                    @ApiResponse(responseCode = "200", ref = "getEvent"),
+                    @ApiResponse(responseCode = "404", ref = "getEventNotFound") })
+    @GetMapping("get/{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) throws EventNotFoundException {
-        EventResponse response = eventService.getEvent(id);
+        EventDTO response = eventService.getEvent(id);
         return ResponseEntity.ok(response);
     }
 
@@ -292,70 +72,38 @@ public class EventController {
             description = "Create event (Role_ORGANIZER required), created by will be current logged in user",
             security = @SecurityRequirement(name = "token"),
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully created event",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"id\": 2,\n" +
-                                                            "    \"name\": \"Predavanje o održivosti proizvoda\",\n" +
-                                                            "    \"description\": \"Predavanje o održivosti proizvoda na feru, vodi profesor Blabla Blabal.\",\n" +
-                                                            "    \"category\": \"PREDAVANJE\",\n" +
-                                                            "    \"city\": \"Zagreb\",\n" +
-                                                            "    \"location\": \"Unska ul. 3\",\n" +
-                                                            "    \"dateTime\": \"2023-05-30T16:00:00\",\n" +
-                                                            "    \"isAvailable\": true,\n" +
-                                                            "    \"createdBy\": \"IHorvat\",\n" +
-                                                            "    \"createdAt\": \"2023-04-14T17:23:56.370193\",\n" +
-                                                            "    \"lastChange\": \"2023-04-14T17:23:56.370193\"\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = ""
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @PostMapping("/add")
+                    @ApiResponse(responseCode = "200", ref = "addEvent"),
+                    @ApiResponse(responseCode = "200", ref = "addEvent") })
+    @PostMapping(value = "add")
     public ResponseEntity<?> addEvent(
             @Validated
             @RequestBody
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            value = "{\n" +
-                                                    "    \"name\": \"Programiranje java\",\n" +
-                                                    "    \"description\": \"Radionica za programiranje u javi\",\n" +
-                                                    "    \"category\": \"RADIONICA\",\n" +
-                                                    "    \"city\": \"Zagreb\",\n" +
-                                                    "    \"location\": \"Strojarska\",\n" +
-                                                    "    \"dateTime\": \"2023-03-30T16:00:00\",\n" +
-                                                    "    \"isAvailable\": true\n" +
-                                                    "}"
-                                    )
-                            }
-                    )
-            )
+                    required = true,
+                    description = "Event to add",
+                    content = @Content(schema = @Schema(implementation = EventAddRequest.class)))
             EventAddRequest request) throws Exception {
         eventService.addEvent(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(
+            value = "{eventId}/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadEventImage(
+            @PathVariable Long eventId,
+            @RequestParam("file") MultipartFile file) {
+
+        eventService.uploadImage(eventId, file);
+
+    }
+
+    @GetMapping("{eventId}/image")
+    public byte[] getEventImage(
+            @PathVariable Long eventId) throws EventNotFoundException {
+
+        return eventService.getImage(eventId);
+
     }
 
     @Operation(
@@ -363,40 +111,9 @@ public class EventController {
             description = "delete event (Role_ORGANIZER required), created by should be current logged in user",
             security = @SecurityRequirement(name = "token"),
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully deleted event",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = ""
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"timestamp\": \"2023-04-24T20:23:02.925+00:00\",\n" +
-                                                            "    \"status\": 403,\n" +
-                                                            "    \"error\": \"Forbidden\",\n" +
-                                                            "    \"message\": \"Forbidden\",\n" +
-                                                            "    \"path\": \"/api/v1/event/delete/10\"\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @DeleteMapping("/delete/{id}")
+                    @ApiResponse(responseCode = "200", ref = "deleteEvent"),
+                    @ApiResponse(responseCode = "403", ref = "forbidden") })
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable Long id) throws InvalidDeleteEventException {
         eventService.deleteEvent(id);
         return ResponseEntity.ok().build();
@@ -407,62 +124,16 @@ public class EventController {
             description = "update event (authority ORGANIZER required), created by should be current logged in user",
             security = @SecurityRequirement(name = "token"),
             responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully updated event",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = ""
-                                            )
-                                    }
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"timestamp\": \"2023-04-24T20:23:02.925+00:00\",\n" +
-                                                            "    \"status\": 403,\n" +
-                                                            "    \"error\": \"Forbidden\",\n" +
-                                                            "    \"message\": \"Forbidden\",\n" +
-                                                            "    \"path\": \"/api/v1/event/update\"\n" +
-                                                            "}"
-                                            )
-                                    }
-                            )
-                    )
-            }
-
-    )
-    @PutMapping("/update")
+                    @ApiResponse(responseCode = "200", ref = "updateEvent200"),
+                    @ApiResponse(responseCode = "403", ref = "forbidden") })
+    @PutMapping("update")
     public ResponseEntity<?> updateEvent(
             @Validated
             @RequestBody
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            value = "{\n" +
-                                                    "    \"id\": \"10\",\n" +
-                                                    "    \"name\": \"Programiranje java\",\n" +
-                                                    "    \"description\": \"Radionica za programiranje u javi\",\n" +
-                                                    "    \"category\": \"RADIONICA\",\n" +
-                                                    "    \"city\": \"Zagreb\",\n" +
-                                                    "    \"location\": \"Strojarska\",\n" +
-                                                    "    \"dateTime\": \"2023-03-30T16:00:00\",\n" +
-                                                    "    \"isAvailable\": true\n" +
-                                                    "}"
-                                    )
-                            }
-                    )
-            )
+                    required = true,
+                    description = "Event to change",
+                    content = @Content(schema = @Schema(implementation = EventPutRequest.class)))
             EventPutRequest request) throws Exception {
 
         eventService.updateEvent(request);
@@ -471,34 +142,10 @@ public class EventController {
     }
 
     @Operation(
-            summary = "Get event categories",
-            description = "Get all available event categories",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully returned categories",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = {
-                                            @ExampleObject(
-                                                    value = "[\n" +
-                                                            "    \"RADIONICA\",\n" +
-                                                            "    \"PREDAVANJE\",\n" +
-                                                            "    \"KONCERT\",\n" +
-                                                            "    \"KVIZ\",\n" +
-                                                            "    \"SPORT\",\n" +
-                                                            "    \"IGRA\",\n" +
-                                                            "    \"NATJECANJE\",\n" +
-                                                            "    \"STANDUP\",\n" +
-                                                            "    \"DOBROTVORNI\"\n" +
-                                                            "]"
-                                            )
-                                    }
-                            )
-                    )
-            }
-    )
-    @GetMapping("/categories")
+            summary = "Get event categories listed",
+            description = "Get all available event categories listed",
+            responses = { @ApiResponse(responseCode = "200", ref = "getCategories200") })
+    @GetMapping("categories")
     public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(EventCategory.values());
     }

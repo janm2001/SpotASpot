@@ -19,8 +19,6 @@ public record EventAddRequest(
         @NonNull Boolean isAvailable
 ) {
 
-
-
     public EventAddRequest(Event event) {
         this(
                 event.getName(),

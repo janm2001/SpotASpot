@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:4321/spot_a_spot_db"
+    username: "admin"
+    password: "admin"
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    url: "jdbc:postgresql://localhost:4321/spot_a_spot_db"
+    user: "admin"
+    password: "admin"

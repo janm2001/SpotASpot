@@ -3,7 +3,7 @@ version: "3"
 services:
   spot-a-spot-database:
     image: "postgres:13-alpine"
-    restart: always
+    restart: unless-stopped
     ports:
       - "4321:5432"
     volumes:
@@ -11,6 +11,6 @@ services:
     environment:
       - "POSTGRES_USER=admin"
       - "POSTGRES_PASSWORD=admin"
-      - "POSTGRES_DB=spot-a-spot-db"
+      - "POSTGRES_DB=spot_a_spot_db"
 volumes:
   spot-a-spot-db-data:
