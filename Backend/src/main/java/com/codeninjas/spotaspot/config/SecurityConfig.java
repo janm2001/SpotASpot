@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,14 +29,12 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     //@Qualifier("delegatedAuthEntryPoint")
     private final AuthenticationEntryPoint delegatedAuthEntryPoint;
-    private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors()
-                .and()
+                .cors().and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/user/get").authenticated()

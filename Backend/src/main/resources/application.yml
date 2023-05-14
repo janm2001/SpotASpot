@@ -44,9 +44,9 @@ springdoc:
 
 cors:
   allowed-origins: "*"
-  allowed-methods: "*"
-  allowed-headers: "*"
-  exposed-headers: "*"
+  allowed-methods: "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD"
+  allowed-headers: "Requestor-Type, Authorization"
+  exposed-headers: "X-Get-Header"
 
 management:
   endpoints:

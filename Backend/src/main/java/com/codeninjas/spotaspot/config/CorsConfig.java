@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -24,16 +25,39 @@ public class CorsConfig {
     @Value("#{'${cors.exposed-headers}'.split(',')}")
     private List<String> expectedHeaders;
 
-    @Bean
+    /*@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(allowedMethods);
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(allowedHeaders);
         configuration.setExposedHeaders(expectedHeaders);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", configuration);
         return source;
+    }*/
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        //configuration.setAllowedOrigins(allowedOrigins);
+        //configuration.setAllowedMethods(allowedMethods);
+        //configuration.setAllowCredentials(true);
+        //configuration.setAllowedHeaders(allowedHeaders);
+        //configuration.setExposedHeaders(expectedHeaders);
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("OPTIONS");
+        configuration.addAllowedMethod("HEAD");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("PUT");
+        configuration.addAllowedMethod("POST");
+        configuration.addAllowedMethod("DELETE");
+        configuration.addAllowedMethod("PATCH");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+        return new CorsFilter(source);
     }
 }
 
