@@ -1,8 +1,8 @@
 package com.codeninjas.spotaspot.events.controller;
 
 import com.codeninjas.spotaspot.events.controller.dto.EventAddRequest;
+import com.codeninjas.spotaspot.events.controller.dto.EventDTO;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
-import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.service.EventService;
 import com.codeninjas.spotaspot.exception.EventNotFoundException;
@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/event")
+@RequestMapping("/api/v1/event/")
 @RequiredArgsConstructor
 public class EventController {
 
@@ -36,7 +37,7 @@ public class EventController {
             summary = "Get all events paginated",
             description = "Get all events paginated",
             responses = { @ApiResponse(responseCode = "200", ref = "getAllEvents200") })
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<?> getAllEvents(
             @ParameterObject Pageable pageable) {
 
@@ -49,7 +50,7 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "getAllEventsForUser"),
                     @ApiResponse(responseCode = "404") })
-    @GetMapping("/for-user/{userId}")
+    @GetMapping("for-user/{userId}")
     public ResponseEntity<?> getAllEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) {
         return ResponseEntity.ok(eventService.getAllEventsForUser(pageable, userId));
     }
@@ -60,9 +61,9 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "getEvent"),
                     @ApiResponse(responseCode = "404", ref = "getEventNotFound") })
-    @GetMapping("/get/{id}")
+    @GetMapping("get/{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) throws EventNotFoundException {
-        EventResponse response = eventService.getEvent(id);
+        EventDTO response = eventService.getEvent(id);
         return ResponseEntity.ok(response);
     }
 
@@ -73,10 +74,8 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "addEvent"),
                     @ApiResponse(responseCode = "200", ref = "addEvent") })
-    @PostMapping("/add")
+    @PostMapping(value = "add")
     public ResponseEntity<?> addEvent(
-            @RequestParam("file") MultipartFile file,
-
             @Validated
             @RequestBody
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -84,8 +83,27 @@ public class EventController {
                     description = "Event to add",
                     content = @Content(schema = @Schema(implementation = EventAddRequest.class)))
             EventAddRequest request) throws Exception {
-        eventService.addEvent(request, file);
+        eventService.addEvent(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(
+            value = "{eventId}/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadEventImage(
+            @PathVariable Long eventId,
+            @RequestParam("file") MultipartFile file) {
+
+        eventService.uploadImage(eventId, file);
+
+    }
+
+    @GetMapping("{eventId}/image")
+    public byte[] getEventImage(
+            @PathVariable Long eventId) throws EventNotFoundException {
+
+        return eventService.getImage(eventId);
+
     }
 
     @Operation(
@@ -95,7 +113,7 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "deleteEvent"),
                     @ApiResponse(responseCode = "403", ref = "forbidden") })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable Long id) throws InvalidDeleteEventException {
         eventService.deleteEvent(id);
         return ResponseEntity.ok().build();
@@ -108,7 +126,7 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "updateEvent200"),
                     @ApiResponse(responseCode = "403", ref = "forbidden") })
-    @PutMapping("/update")
+    @PutMapping("update")
     public ResponseEntity<?> updateEvent(
             @Validated
             @RequestBody
@@ -127,7 +145,7 @@ public class EventController {
             summary = "Get event categories listed",
             description = "Get all available event categories listed",
             responses = { @ApiResponse(responseCode = "200", ref = "getCategories200") })
-    @GetMapping("/categories")
+    @GetMapping("categories")
     public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(EventCategory.values());
     }

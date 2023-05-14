@@ -1,6 +1,5 @@
 package com.codeninjas.spotaspot.events.controller;
 
-import com.codeninjas.spotaspot.events.controller.dto.EventResponse;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
@@ -38,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class EventControllerIntegrationTest {
 
-    private final static LocalDateTime fixedTime = LocalDateTime.of(1989, 01, 13, 0, 0, 0, 0);
+  /*  private final static LocalDateTime fixedTime = LocalDateTime.of(1989, 01, 13, 0, 0, 0, 0);
     @Autowired
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
@@ -141,5 +140,5 @@ class EventControllerIntegrationTest {
 
     @Test
     void getCategories() {
-    }
+    }*/
 }

@@ -35,8 +35,6 @@
     "description": "Successfully returned categories",
     "content": ""
   },
-
-
   "register": {
     "description": "Successfully registered",
     "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjgzMTM2NzM3LCJleHAiOjE2ODMxMzgxNzd9.7wgA9Ne1PdgA0ELnhNQJuDSynI80HuiplYMZbiJa4Ww\"\n}"

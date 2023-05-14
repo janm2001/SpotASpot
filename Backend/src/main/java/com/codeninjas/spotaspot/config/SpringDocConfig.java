@@ -16,11 +16,16 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.json.JSONObject;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +41,8 @@ import java.util.Set;
 )
 public class SpringDocConfig {
     ObjectMapper objectMapper = new ObjectMapper();
+    @Value("${springdoc.location}")
+    Resource responseFile;
 
     @Bean
     public OpenAPI baseOpenAPI() throws IOException {
@@ -85,7 +92,7 @@ public class SpringDocConfig {
 
     private Map<String, ApiResponse> loadResponsesFromJSON() throws IOException {
 
-        JSONObject responses = ReadJsonFileToJsonObject.read("src/main/resources/openapi/responses.json");
+        JSONObject responses = new JSONObject(responseFile.getContentAsString(Charset.defaultCharset()));
 
         Map<String, ApiResponse> result = new HashMap<>();
 

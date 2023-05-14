@@ -4,28 +4,28 @@ import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.*;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @JsonSerialize
-public record EventResponse(
-        @NonNull Long id,
-        @NonNull String name,
-        String description,
-        @NonNull EventCategory category,
-        String city,
-        @NonNull String location,
-        @NonNull LocalDateTime dateTime,
-        @NonNull Boolean isAvailable,
-        @NonNull String createdBy,
-        @NonNull LocalDateTime createdAt,
-        @NonNull LocalDateTime lastChange
+public record EventDTO(
+    @NonNull Long id,
+    @NonNull String name,
+    String description,
+    @NonNull EventCategory category,
+    String city,
+    @NonNull String location,
+    String imageId,
+    @NonNull LocalDateTime dateTime,
+    @NonNull Boolean isAvailable,
+    @NonNull UUID createdBy,
+    @NonNull LocalDateTime createdAt,
+    @NonNull LocalDateTime lastChange
 ) {
 
-
-
-    public EventResponse(Event event) {
+    public EventDTO(Event event) {
         this(
                 event.getId(),
                 event.getName(),
@@ -33,9 +33,10 @@ public record EventResponse(
                 event.getCategory(),
                 event.getCity(),
                 event.getLocation(),
+                event.getImageId(),
                 event.getDateTime(),
                 event.getIsAvailable(),
-                event.getCreatedBy().getUsername(),
+                event.getCreatedBy().getId(),
                 event.getCreatedAt(),
                 event.getLastChange()
         );
@@ -49,6 +50,7 @@ public record EventResponse(
                 .category(this.category)
                 .city(this.city)
                 .location(this.location)
+                .imageId(this.imageId)
                 .dateTime(this.dateTime)
                 .isAvailable(this.isAvailable)
                 .createdBy(createdBy)
