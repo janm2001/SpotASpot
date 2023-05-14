@@ -9,6 +9,7 @@ import favicon from "../public/favicon/favicon-16x16.png";
 
 import { Button, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "@/utils/global";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -150,7 +151,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch("http://localhost:8080/api/v1/event/all", {
+      const response = await fetch(BASE_URL + "/api/v1/event/all", {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

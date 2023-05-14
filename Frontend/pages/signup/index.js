@@ -16,11 +16,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { BASE_URL } from "@/utils/global";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const index = () => {
-  const BASE_URL = "http://localhost:8080";
   const router = useRouter();
 
   const handleSubmit = async (event) => {

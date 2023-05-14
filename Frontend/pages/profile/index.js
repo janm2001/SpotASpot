@@ -2,10 +2,11 @@ import UserInfo from "@/components/UserInfo/UserInfo";
 import React, { useEffect, useState } from "react";
 import { Grid, Avatar } from "@mui/material";
 import { deepOrange, deepPurple } from "@mui/material/colors";
+import { BASE_URL } from "@/utils/global";
 
 const Profile = () => {
   const [user, setUser] = useState([]);
-  const BASE_URL = "http://localhost:8080";
+
   console.log(user);
 
   useEffect(() => {

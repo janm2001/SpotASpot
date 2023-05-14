@@ -3,6 +3,7 @@ import EventsData from "@/data/EventsData";
 import EventsNavbar from "@/components/EventsNavbar/EventsNavbar";
 import Events from "@/components/Events/Events";
 import styles from "@/styles/EventPage.module.css";
+import { BASE_URL } from "@/utils/global";
 
 const EventPage = () => {
   const [genre, setGenre] = useState("");
@@ -12,7 +13,7 @@ const EventPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/v1/event/all", {
+        const response = await fetch(BASE_URL + "/api/v1/event/all", {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

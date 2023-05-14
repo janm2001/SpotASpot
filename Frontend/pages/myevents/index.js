@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import UserEvents from "@/components/UserEvents/UserEvents";
 import OrganizorEvents from "@/components/OrganizorEvents/OrganizorEvents";
+import { BASE_URL } from "@/utils/global";
 
 const index = () => {
   const [role, setRole] = useState("ORGANIZER");
-  const BASE_URL = "http://localhost:8080";
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token);
