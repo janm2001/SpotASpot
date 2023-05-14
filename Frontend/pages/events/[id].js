@@ -7,7 +7,10 @@ import Link from "next/link";
 import styles from "@/styles/EventDetails.module.css";
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
-import { Typography, Rating, Button } from "@mui/material";
+import { AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
+import { Typography, Rating, Button, IconButton } from "@mui/material";
+import { BASE_URL } from "@/utils/global";
 
 const EventDetails = () => {
   const router = useRouter();
@@ -23,22 +26,39 @@ const EventDetails = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(
-        "http://localhost:8080/api/v1/event/get/" + id,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/api/v1/event/get/" + id, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
       const getData = await response.json();
       setData(getData);
     };
     fetchEvents();
   }, [id]);
 
-  console.log(data);
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      "http://localhost:8080/api/v1/event/delete/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.log("error");
+      return;
+    }
+
+    router.push("/");
+  };
 
   return (
     <div>
@@ -102,8 +122,19 @@ const EventDetails = () => {
           </div>
 
           <div className={styles.desc}>
-            <h3 className={styles.description}>Description</h3>
-            <p>{data.description}</p>
+            <div>
+              <h3 className={styles.description}>Description</h3>
+              <p>{data.description}</p>
+            </div>
+            <div className={styles.buttons}>
+              <IconButton>
+                <AiFillEdit />
+              </IconButton>
+
+              <IconButton onClick={() => handleDelete(id)}>
+                <AiFillDelete />
+              </IconButton>
+            </div>
           </div>
         </div>
       )}

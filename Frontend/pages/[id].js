@@ -8,6 +8,7 @@ import styles from "@/styles/EventDetails.module.css";
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
 import { Typography, Rating, Button } from "@mui/material";
+import { BASE_URL } from "@/utils/global";
 
 const PopularEventDetails = () => {
   const router = useRouter();
@@ -23,15 +24,12 @@ const PopularEventDetails = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(
-        "http://localhost:8080/api/v1/event/get/" + id,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const response = await fetch(BASE_URL + "/api/v1/event/get/" + id, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
       const getData = await response.json();
       setData(getData);
     };
