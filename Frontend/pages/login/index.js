@@ -36,6 +36,7 @@ const index = () => {
       setError("An error occured: " + response.status);
       return;
     }
+
     const data = await response.json();
     console.log(data);
 

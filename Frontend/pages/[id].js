@@ -1,25 +1,22 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import PopularEventsData from "@/data/PopularEventsData";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/EventDetails.module.css";
 import { TiLocation } from "react-icons/ti";
 import { RxCalendar } from "react-icons/rx";
-import { Typography, Rating, Button } from "@mui/material";
+import { AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
+import { Typography, Rating, Button, IconButton } from "@mui/material";
 
 const PopularEventDetails = () => {
   const router = useRouter();
 
   const { id } = router.query;
-  console.log("Id", id);
+
   const [rating, setRating] = useState(null);
   const [data, setData] = useState([]);
-
-  // const event = PopularEventsData.events.filter(
-  //   (event) => event.id.toString() === id
-  // );
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -38,7 +35,27 @@ const PopularEventDetails = () => {
     fetchEvents();
   }, [id]);
 
-  console.log(data);
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      "http://localhost:8080/api/v1/event/delete/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.log("error");
+      return;
+    }
+
+    router.push("/");
+  };
 
   return (
     <div>
@@ -102,8 +119,19 @@ const PopularEventDetails = () => {
           </div>
 
           <div className={styles.desc}>
-            <h3 className={styles.description}>Description</h3>
-            <p>{data.description}</p>
+            <div>
+              <h3 className={styles.description}>Description</h3>
+              <p>{data.description}</p>
+            </div>
+            <div className={styles.buttons}>
+              <IconButton>
+                <AiFillEdit />
+              </IconButton>
+
+              <IconButton onClick={() => handleDelete(id)}>
+                <AiFillDelete />
+              </IconButton>
+            </div>
           </div>
         </div>
       )}
