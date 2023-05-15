@@ -61,7 +61,7 @@ class UserRepositoryTest {
         assertThat(expectedUs).isEqualTo(user);
     }
 
-    /*@Test
+    @Test
     void itShouldCheckWhenUserDoesNotExistsByUsername() {
         // given
         String username = "Leca";
@@ -87,5 +87,5 @@ class UserRepositoryTest {
         assertThat(expected)
                 .isNotNull()
                 .isEmpty();
-    }*/
+    }
 }

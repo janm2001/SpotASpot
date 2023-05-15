@@ -53,7 +53,7 @@ public class Event {
     private LocalDateTime createdAt;
     @Column (nullable = false)
     private LocalDateTime lastChange;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "likes",
             joinColumns = @JoinColumn(name = "event_id"),

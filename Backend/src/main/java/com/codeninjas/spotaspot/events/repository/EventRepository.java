@@ -1,6 +1,7 @@
 package com.codeninjas.spotaspot.events.repository;
 
 import com.codeninjas.spotaspot.events.entity.Event;
+import com.codeninjas.spotaspot.users.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,4 +18,6 @@ public interface EventRepository extends CrudRepository<Event, Long>, PagingAndS
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE Event e SET e.imageId = :imageId WHERE e.id = :eventId")
     int updateEventImageId(@Param("imageId") String imageId, @Param("eventId") Long eventId);
+
+    Page<Event> findAllLikedBy(Pageable pageable, Event event);
 }

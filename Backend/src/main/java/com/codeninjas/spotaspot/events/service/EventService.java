@@ -8,14 +8,14 @@ import com.codeninjas.spotaspot.events.controller.dto.EventDTO;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.entity.Event;
 import com.codeninjas.spotaspot.events.repository.EventRepository;
-import com.codeninjas.spotaspot.exception.EventNotFoundException;
-import com.codeninjas.spotaspot.exception.InvalidAddEventException;
-import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
-import com.codeninjas.spotaspot.exception.UserNotOwnerException;
+import com.codeninjas.spotaspot.exception.*;
+import com.codeninjas.spotaspot.users.controller.dto.UserDTO;
 import com.codeninjas.spotaspot.users.entity.User;
+import com.codeninjas.spotaspot.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -36,6 +37,7 @@ public class EventService {
     private final Clock clock;
     private final S3Service s3Service;
     private final S3Buckets s3Buckets;
+    private final UserRepository userRepository;
 
     public Page<EventDTO> getAllEvents(Pageable pageable) {
         return eventRepository.findAll(pageable).map(EventDTO::new);
@@ -118,5 +120,43 @@ public class EventService {
                     "Event with id [%d] not found".formatted(eventId)
             );
         }
+    }
+
+    public Page<EventDTO> getAllLikedEventsForUser(Pageable pageable, UUID userId) throws UserNotFoundException {
+        // TODO: create query using pageable
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        return new PageImpl<>(user.getLikedEvents().stream().map(EventDTO::new).toList());
+
+
+    }
+
+    public Page<UserDTO> getLikedUsersForEvent(Pageable pageable, Long eventId) throws EventNotFoundException {
+        // TODO: create query using pageable
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        return new PageImpl<>(event.getLikedBy().stream().map(UserDTO::new).toList());
+    }
+
+    public void likeEvent(Long eventId) throws EventNotFoundException, EventAlreadyLikedException {
+        User currentUser = jwtService.getCurrentUser();
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Set<Event> likedEvents = currentUser.getLikedEvents();
+        if (likedEvents.contains(event)) {
+            throw new EventAlreadyLikedException(eventId);
+        }
+        likedEvents.add(event);
+        currentUser.setLikedEvents(likedEvents);
+        userRepository.save(currentUser);
+    }
+
+    public void removeLikedEvent(Long eventId) throws EventNotFoundException, EventNotLikedException {
+        User currentUser = jwtService.getCurrentUser();
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Set<Event> likedEvents = currentUser.getLikedEvents();
+        if (!likedEvents.contains(event)) {
+            throw new EventNotLikedException(eventId);
+        }
+        likedEvents.remove(event);
+        currentUser.setLikedEvents(likedEvents);
+        userRepository.save(currentUser);
     }
 }

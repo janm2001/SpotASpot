@@ -5,6 +5,7 @@ import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationResponse;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
 import com.codeninjas.spotaspot.exception.CouldNotRegisterException;
 import com.codeninjas.spotaspot.exception.WrongUsernameOrPasswordException;
+import com.codeninjas.spotaspot.users.controller.dto.UserDTO;
 import com.codeninjas.spotaspot.users.entity.User;
 import com.codeninjas.spotaspot.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class AuthenticationService {
         }
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, new UserDTO(user));
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws WrongUsernameOrPasswordException {
@@ -55,7 +56,7 @@ public class AuthenticationService {
         userRepository.save(user);
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(jwtToken, new UserDTO(user));
     }
 
 }

@@ -1,20 +1,29 @@
 package com.codeninjas.spotaspot.users.controller;
 
+import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
+import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
+import com.codeninjas.spotaspot.exception.UserNotFoundException;
 import com.codeninjas.spotaspot.users.controller.dto.UserResponse;
 import com.codeninjas.spotaspot.users.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/user/")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -68,17 +77,20 @@ public class UserController {
             }
 
     )
-    @GetMapping("/get")
-    public ResponseEntity<?> get() {
-        UserResponse response;
-        try {
-            response = userService.getCurrentUserDetails();
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body(e.getMessage());
-        }
-        return ResponseEntity.ok(response);
+    @GetMapping("get")
+    public ResponseEntity<?> get() throws UsernameNotFoundException {
+        return ResponseEntity.ok(userService.getCurrentUserDetails());
+    }
+
+    @GetMapping("user/{userId}")
+    public ResponseEntity<?> getUserId(@PathVariable UUID userId) throws UserNotFoundException {
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
+    @GetMapping("all")
+    public ResponseEntity<?> getAllUsers(
+            @ParameterObject Pageable pageable) {
+
+        return ResponseEntity.ok(userService.getAllUsers(pageable));
     }
 
 }

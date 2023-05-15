@@ -33,11 +33,11 @@
   },
   "getCategories": {
     "description": "Successfully returned categories",
-    "content": ""
+    "content": "[\n    \"RADIONICA\",\n    \"PREDAVANJE\",\n    \"KONCERT\",\n    \"KVIZ\",\n    \"SPORT\",\n    \"IGRA\",\n    \"NATJECANJE\",\n    \"STANDUP\",\n    \"DOBROTVORNI\"\n]"
   },
   "register": {
     "description": "Successfully registered",
-    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjgzMTM2NzM3LCJleHAiOjE2ODMxMzgxNzd9.7wgA9Ne1PdgA0ELnhNQJuDSynI80HuiplYMZbiJa4Ww\"\n}"
+    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjg0MTQzOTA1LCJleHAiOjE2ODQxNDUzNDV9.jgl7kTrnQnOAsaJH0gZqLPZskmM_EnMZFyr4iniPjbg\",\n    \"userData\": {\n        \"id\": \"84ff1353-33ac-4f40-b4a1-cf31e1567f45\",\n        \"firstName\": \"Leonardo\",\n        \"lastName\": \"Marinović\",\n        \"email\": \"orgnaizer23@gmail2.com\",\n        \"username\": \"LeoOrg2\",\n        \"role\": \"ORGANIZER\",\n        \"createdAt\": \"2023-05-14T21:48:21.051465\",\n        \"lastLogin\": \"2023-05-15T11:45:05.568807946\",\n        \"lastChange\": \"2023-05-14T21:48:21.051465\"\n    }\n}"
   },
   "registerFailed": {
     "description": "Could not register",
@@ -45,8 +45,9 @@
   },
   "authenticate": {
     "description": "Successfully authenticated",
-    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjgzMTM2NzM3LCJleHAiOjE2ODMxMzgxNzd9.7wgA9Ne1PdgA0ELnhNQJuDSynI80HuiplYMZbiJa4Ww\"\n}"
+    "content": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJMZW9PcmcyIiwiaWF0IjoxNjg0MTQzOTA1LCJleHAiOjE2ODQxNDUzNDV9.jgl7kTrnQnOAsaJH0gZqLPZskmM_EnMZFyr4iniPjbg\",\n    \"userData\": {\n        \"id\": \"84ff1353-33ac-4f40-b4a1-cf31e1567f45\",\n        \"firstName\": \"Leonardo\",\n        \"lastName\": \"Marinović\",\n        \"email\": \"orgnaizer23@gmail2.com\",\n        \"username\": \"LeoOrg2\",\n        \"role\": \"ORGANIZER\",\n        \"createdAt\": \"2023-05-14T21:48:21.051465\",\n        \"lastLogin\": \"2023-05-15T11:45:05.568807946\",\n        \"lastChange\": \"2023-05-14T21:48:21.051465\"\n    }\n}"
   },
+
   "authenticateFailed": {
     "description": "Bad credentials",
     "content": "{\n    \"timestamp\": \"2023-05-03T19:59:43.162664911\",\n    \"status\": 403,\n    \"error\": \"Forbidden\",\n    \"message\": \"Wrong username or password\",\n    \"path\": \"/api/v1/auth/authenticate\"\n}"
