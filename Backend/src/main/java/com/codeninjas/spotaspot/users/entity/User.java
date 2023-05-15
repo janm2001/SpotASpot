@@ -44,7 +44,7 @@ public class User implements UserDetails  {
     private LocalDateTime lastLogin;
     @Column (nullable = false)
     private LocalDateTime lastChange;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "likes",
             joinColumns = @JoinColumn(name = "user_id"),

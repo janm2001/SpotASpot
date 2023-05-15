@@ -5,8 +5,7 @@ import com.codeninjas.spotaspot.events.controller.dto.EventDTO;
 import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
 import com.codeninjas.spotaspot.events.entity.EventCategory;
 import com.codeninjas.spotaspot.events.service.EventService;
-import com.codeninjas.spotaspot.exception.EventNotFoundException;
-import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
+import com.codeninjas.spotaspot.exception.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -71,9 +70,7 @@ public class EventController {
             summary = "[ORGANIZER] create event",
             description = "Create event (Role_ORGANIZER required), created by will be current logged in user",
             security = @SecurityRequirement(name = "token"),
-            responses = {
-                    @ApiResponse(responseCode = "200", ref = "addEvent"),
-                    @ApiResponse(responseCode = "200", ref = "addEvent") })
+            responses = { @ApiResponse(responseCode = "200", ref = "addEvent") })
     @PostMapping(value = "add")
     public ResponseEntity<?> addEvent(
             @Validated
@@ -113,9 +110,9 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "deleteEvent"),
                     @ApiResponse(responseCode = "403", ref = "forbidden") })
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable Long id) throws InvalidDeleteEventException {
-        eventService.deleteEvent(id);
+    @DeleteMapping("delete/{eventId}")
+    public ResponseEntity<?> deleteEvent(@PathVariable Long eventId) throws InvalidDeleteEventException {
+        eventService.deleteEvent(eventId);
         return ResponseEntity.ok().build();
     }
 
@@ -148,5 +145,28 @@ public class EventController {
     @GetMapping("categories")
     public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(EventCategory.values());
+    }
+
+    @GetMapping("liked-by/{userId}")
+    public ResponseEntity<?> getLikedEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) throws UserNotFoundException {
+        return ResponseEntity.ok(eventService.getAllLikedEventsForUser(pageable, userId));
+    }
+
+    @GetMapping("liked-for/{eventId}")
+    public ResponseEntity<?> getLikedUsersForEvent(@ParameterObject Pageable pageable, @PathVariable Long eventId) throws EventNotFoundException {
+        return ResponseEntity.ok(eventService.getLikedUsersForEvent(pageable, eventId));
+    }
+
+    @PostMapping("like/{eventId}")
+    public ResponseEntity<?> likeEvent(@PathVariable Long eventId) throws EventNotFoundException, EventAlreadyLikedException {
+        eventService.likeEvent(eventId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("remove-like/{eventId}")
+    public ResponseEntity<?> removeLikedEvent(@PathVariable Long eventId)
+            throws EventNotFoundException, EventNotLikedException {
+        eventService.removeLikedEvent(eventId);
+        return ResponseEntity.ok().build();
     }
 }

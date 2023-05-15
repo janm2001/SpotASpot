@@ -41,7 +41,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class EventServiceTest {
-  /*  private final static LocalDate LOCAL_DATE = LocalDate.of(1989, 01, 13);
+    private final static LocalDate LOCAL_DATE = LocalDate.of(1989, 01, 13);
     private AutoCloseable autoCloseable;
     @Mock
     private EventRepository eventRepository;
@@ -217,5 +217,5 @@ class EventServiceTest {
         verify(eventRepository).save(eventArgumentCaptor.capture());
         Event capturedEvent = eventArgumentCaptor.getValue();
         assertThat(capturedEvent).isEqualTo(request.toEventFill(target, LocalDateTime.now(clock)));
-    }*/
+    }
 }

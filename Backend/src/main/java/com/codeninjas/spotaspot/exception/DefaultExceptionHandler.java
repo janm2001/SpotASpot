@@ -134,6 +134,22 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(UserNotFoundException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
@@ -165,5 +181,37 @@ public class DefaultExceptionHandler {
         );
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(EventNotLikedException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EventNotLikedException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
+    }
+
+    @ExceptionHandler(EventAlreadyLikedException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EventAlreadyLikedException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
     }
 }
