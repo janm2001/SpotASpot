@@ -4,16 +4,8 @@ server:
     include-message: always
 
 spring:
-  datasource:
-    url: "jdbc:postgresql://${SPOT_A_SPOT_DB_ENDPOINT}:5432/spot_a_spot_db"
-    username: ${SPOT_A_SPOT_DB_USERNAME}
-    password: ${SPOT_A_SPOT_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-  flyway:
-    url: "jdbc:postgresql://${SPOT_A_SPOT_DB_ENDPOINT}:5432/spot_a_spot_db"
-    user: ${SPOT_A_SPOT_DB_USERNAME}
-    password: ${SPOT_A_SPOT_DB_PASSWORD}
+  profiles:
+    active: ${spring.profiles.active}
 
   data:
     web:
@@ -44,8 +36,8 @@ springdoc:
 
 cors:
   allowed-origins: "*"
-  allowed-methods: "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD"
-  allowed-headers: "Requestor-Type, Authorization"
+  allowed-methods: "GET,POST,PATCH,PUT,DELETE,OPTIONS,HEAD"
+  allowed-headers: "*,Requestor-Type,Authorization"
   exposed-headers: "X-Get-Header"
 
 management:

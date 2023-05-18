@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://${SPOT_A_SPOT_DB_ENDPOINT}:5432/spot_a_spot_db"
+    username: ${SPOT_A_SPOT_DB_USERNAME}
+    password: ${SPOT_A_SPOT_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    url: "jdbc:postgresql://${SPOT_A_SPOT_DB_ENDPOINT}:5432/spot_a_spot_db"
+    user: ${SPOT_A_SPOT_DB_USERNAME}
+    password: ${SPOT_A_SPOT_DB_PASSWORD}
