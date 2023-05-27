@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/EventDetails.module.css";
@@ -16,13 +15,10 @@ const PopularEventDetails = () => {
   const router = useRouter();
 
   const { id } = router.query;
-  console.log("Id", id);
+
   const [rating, setRating] = useState(null);
   const [data, setData] = useState([]);
-
-  // const event = PopularEventsData.events.filter(
-  //   (event) => event.id.toString() === id
-  // );
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -35,22 +31,41 @@ const PopularEventDetails = () => {
       const getData = await response.json();
       setData(getData);
     };
+
+    const fetchImage = async () => {
+      const response = await fetch(
+        BASE_URL + "/api/v1/event/" + id + "/image",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.log("error");
+        return;
+      }
+
+      const image = await response.json();
+      setData({ image, ...data });
+      console.log(data);
+    };
     fetchEvents();
+    fetchImage();
   }, [id]);
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      BASE_URL+"/api/v1/event/delete/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(BASE_URL + "/api/v1/event/delete/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       console.log("error");
@@ -59,6 +74,48 @@ const PopularEventDetails = () => {
 
     router.push("/");
   };
+
+  const uploadImage = async (event) => {
+    event.preventDefault();
+    const file = event.target.files[0];
+    setImage(file);
+  };
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("image", image);
+      console.log(image);
+      const contentType = image.type;
+
+      const response = await fetch(
+        BASE_URL + "/api/v1/event/" + id + "/image",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": contentType,
+            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            formData,
+          },
+        }
+      );
+      // console.log(response.status);
+      // console.log(await response.text());
+      if (!response.ok) {
+        console.log("error");
+        return;
+      }
+    };
+
+    fetchImage();
+  }, [image]);
+
+  console.log(image);
 
   return (
     <div>
@@ -75,6 +132,7 @@ const PopularEventDetails = () => {
                 layout="fill"
                 className={styles.image}
               />
+              <input type="file" onChange={uploadImage} />
             </div>
 
             <div className={styles.eventInfo}>
