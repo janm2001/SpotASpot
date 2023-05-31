@@ -4,12 +4,18 @@
   gap: 1rem;
   width: 90%;
   margin: 2rem auto;
+  
 }
 
 .popularEventsTitle {
   text-align: center;
   font-size: 2.1rem;
   margin: 3rem 0;
+  border-bottom: solid #ECB365 0.4rem;
+  margin: 7em auto 1em;
+  margin-top: 2em;
+  width: 10em; height: 1.5em;
+  
 }
 
 @media (max-width: 1024px) {

@@ -75,3 +75,63 @@
   font-size: 2rem;
   color: #fff;
 }
+@media (max-width: 480px) {
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .img {
+    height: auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .eventInfo {
+    text-align: center;
+  }
+
+  .button {
+    align-self: flex-end;
+  }
+
+  .desc {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .desc p {
+    width: 100%;
+  }
+  .header {
+    font-size: 2.5rem;
+  }
+  .eventDetails {
+
+  margin: 2rem auto;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.eventInfo {
+  width: 100%;
+  align-items: start;
+}
+.eventInfo h1{
+  width: 100%;
+  border-bottom: solid 4px #ecb365;
+  padding-bottom: 0px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.header {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+  
+}
