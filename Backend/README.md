@@ -10,7 +10,7 @@ Server is running on port `8080`
 2. Run server
 ```
 1. Run terminal inside this folder
-2. type: "./gradlew bootRun"
+2. type: "mvn spring-boot:run -Dspring-boot.run.profiles=dev"
 ```
 
 # API docs

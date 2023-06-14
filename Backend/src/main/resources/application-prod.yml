@@ -9,3 +9,7 @@ spring:
     url: "jdbc:postgresql://${SPOT_A_SPOT_DB_ENDPOINT}:5432/spot_a_spot_db"
     user: ${SPOT_A_SPOT_DB_USERNAME}
     password: ${SPOT_A_SPOT_DB_PASSWORD}
+
+aws:
+  s3:
+    mock: false

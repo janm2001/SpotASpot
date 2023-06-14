@@ -1,23 +1,17 @@
 package com.codeninjas.spotaspot.users.controller;
 
-import com.codeninjas.spotaspot.events.controller.dto.EventPutRequest;
-import com.codeninjas.spotaspot.exception.InvalidDeleteEventException;
 import com.codeninjas.spotaspot.exception.UserNotFoundException;
-import com.codeninjas.spotaspot.users.controller.dto.UserResponse;
 import com.codeninjas.spotaspot.users.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -77,12 +71,12 @@ public class UserController {
             }
 
     )
-    @GetMapping("get")
+    @GetMapping("current-user")
     public ResponseEntity<?> get() throws UsernameNotFoundException {
         return ResponseEntity.ok(userService.getCurrentUserDetails());
     }
 
-    @GetMapping("user/{userId}")
+    @GetMapping("{userId}")
     public ResponseEntity<?> getUserId(@PathVariable UUID userId) throws UserNotFoundException {
         return ResponseEntity.ok(userService.getUserById(userId));
     }

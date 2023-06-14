@@ -4,8 +4,16 @@ server:
     include-message: always
 
 spring:
-  profiles:
-    active: ${spring.profiles.active}
+  datasource:
+    url: "jdbc:postgresql://localhost:4321/spot_a_spot_db"
+    username: "admin"
+    password: "admin"
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    url: "jdbc:postgresql://localhost:4321/spot_a_spot_db"
+    user: "admin"
+    password: "admin"
 
   data:
     web:
@@ -29,10 +37,7 @@ spring:
 
   main:
     banner-mode: off
-
-springdoc:
-  show-actuator: true
-  location: "classpath:openapi/responses.json"
+    web-application-type: servlet
 
 cors:
   allowed-origins: "*"
@@ -49,8 +54,13 @@ management:
 aws:
   region: eu-central-1
   s3:
+    mock: true
     buckets:
       images: spotaspot-images
+
+springdoc:
+  show-actuator: true
+  location: "classpath:openapi/responses.json"
 
 logging:
   file:

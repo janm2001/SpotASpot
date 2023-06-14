@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,19 +37,31 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/user/get").authenticated()
-                .requestMatchers("/api/v1/event/all").permitAll()
-                .requestMatchers("/api/v1/event/for-user/{userId}").permitAll()
-                .requestMatchers("/api/v1/event/get/{eventId}").permitAll()
-                .requestMatchers("/api/v1/event/add").hasAnyAuthority("ORGANIZER")
-                .requestMatchers("/api/v1/event/delete/{eventId}").hasAnyAuthority("ORGANIZER")
-                .requestMatchers("/api/v1/event/update").hasAnyAuthority("ORGANIZER")
-                .requestMatchers("/api/v1/event/categories").permitAll()
-                .requestMatchers("/actuator/**").permitAll()
-                .requestMatchers("/api/v3/api-docs").permitAll()
-                .requestMatchers("/swagger-ui/**").permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/auth/authenticate").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/api/v1/user/current-user").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/v1/user/{userId}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/user/all").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/all").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/for-user/{userId}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/{eventId}").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/event/add").hasAnyAuthority("ORGANIZER")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/event/{eventId}").hasAnyAuthority("ORGANIZER")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/event/update").hasAnyAuthority("ORGANIZER")
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/categories").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/event/{eventId}/image").hasAnyAuthority("ORGANIZER")
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/{eventId}/image").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/liked-by/{userId}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/event/liked-for/{eventId}").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/event/like/{eventId}").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/event/remove-like/{eventId}").authenticated()
+
+                .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v3/api-docs").permitAll()
+                .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                .anyRequest().denyAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

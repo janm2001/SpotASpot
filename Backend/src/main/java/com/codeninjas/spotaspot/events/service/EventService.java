@@ -52,11 +52,12 @@ public class EventService {
         return new EventDTO(event);
     }
 
-    public void addEvent(EventAddRequest eventAddRequest) throws Exception {
+    public Long addEvent(EventAddRequest eventAddRequest) throws Exception {
         User user = jwtService.getCurrentUser();
         Event event = eventAddRequest.toEvent(user, LocalDateTime.now(clock));
         try {
-            eventRepository.save(event);
+            Event e = eventRepository.save(event);
+            return e.getId();
         } catch(DataAccessException e) {
             e.printStackTrace();
             throw new InvalidAddEventException();
