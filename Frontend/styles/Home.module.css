@@ -4,7 +4,6 @@
   gap: 1rem;
   width: 90%;
   margin: 2rem auto;
-  
 }
 
 .popularEventsTitle {
@@ -12,10 +11,22 @@
   font-size: 2.1rem;
   margin: 3rem 0;
   border-bottom: solid #ECB365 0.4rem;
+  width: 10em;
+  height: 1.5em;
   margin: 7em auto 1em;
-  margin-top: 2em;
-  width: 10em; height: 1.5em;
-  
+}
+
+.carouselEvents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouselEvents .image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain; /* or 'cover' depending on your desired behavior */
 }
 
 @media (max-width: 1024px) {

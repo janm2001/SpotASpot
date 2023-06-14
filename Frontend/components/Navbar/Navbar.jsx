@@ -36,7 +36,7 @@ const Navbar = () => {
       <div className={styles.wrap}>
         <div>
           <Link href="/" className={styles.brand} aria-disabled>
-            <Image src={Logo} width={100} height={75} alt="Logo" />
+            <Image src={Logo} width={75} height={75} alt="Logo" />
             <h2 className="header">SpotASpot</h2>
           </Link>
         </div>
