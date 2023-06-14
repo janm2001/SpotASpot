@@ -41,7 +41,7 @@ const EventDetails = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "http://localhost:8080/api/v1/event/delete/" + id,
+      BASE_URL+"/api/v1/event/delete/" + id,
       {
         method: "DELETE",
         headers: {
