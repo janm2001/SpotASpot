@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: 'jdbc:tc:postgresql:13-alpine://localhost:4321/spot-a-spot-db-test'
+
+aws:
+  region: eu-central-1
+  s3:
+    mock: true
+    buckets:
+      images: spotaspot-images
+
+cors:
+  allowed-origins: "*"
+  allowed-methods: "GET,POST,PATCH,PUT,DELETE,OPTIONS,HEAD"
+  allowed-headers: "*,Requestor-Type,Authorization"
+  exposed-headers: "X-Get-Header"
+
+springdoc:
+  show-actuator: true
+  location: "classpath:openapi/responses.json"
