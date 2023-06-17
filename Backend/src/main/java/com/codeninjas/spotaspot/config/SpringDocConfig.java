@@ -41,6 +41,7 @@ import java.util.Set;
 )
 public class SpringDocConfig {
     ObjectMapper objectMapper = new ObjectMapper();
+
     @Value("${springdoc.location}")
     Resource responseFile;
 
@@ -91,7 +92,6 @@ public class SpringDocConfig {
     }
 
     private Map<String, ApiResponse> loadResponsesFromJSON() throws IOException {
-
         JSONObject responses = new JSONObject(responseFile.getContentAsString(Charset.defaultCharset()));
 
         Map<String, ApiResponse> result = new HashMap<>();

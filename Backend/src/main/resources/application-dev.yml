@@ -9,3 +9,7 @@ spring:
     url: "jdbc:postgresql://localhost:4321/spot_a_spot_db"
     user: "admin"
     password: "admin"
+
+aws:
+  s3:
+    mock: false

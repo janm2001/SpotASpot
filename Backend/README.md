@@ -7,10 +7,13 @@ Server is running on port `8080`
 2. type: "cd ./etc/docker"
 3. type: "docker compose up"
 ```
-2. Run server
+2. Create S3Bucket with a name "spotaspot-images" and paste aws key in /home/.aws/credentials  
+
+
+3. Run server
 ```
 1. Run terminal inside this folder
-2. type: "./gradlew bootRun"
+2. type: "mvn spring-boot:run -Dspring-boot.run.profiles=dev"
 ```
 
 # API docs

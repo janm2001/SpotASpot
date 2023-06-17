@@ -183,8 +183,8 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(EventNotLikedException.class)
-    public ResponseEntity<ApiErrorResponse> handleException(EventNotLikedException e,
+    @ExceptionHandler(EventNotGoingToException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EventNotGoingToException e,
                                                             HttpServletRequest request) {
         logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
 
@@ -199,8 +199,24 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(response, e.getStatus());
     }
 
-    @ExceptionHandler(EventAlreadyLikedException.class)
-    public ResponseEntity<ApiErrorResponse> handleException(EventAlreadyLikedException e,
+    @ExceptionHandler(EventNotInterestedToException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EventNotInterestedToException e,
+                                                            HttpServletRequest request) {
+        logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(clock),
+                e.getStatus().value(),
+                e.getStatus().getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, e.getStatus());
+    }
+
+    @ExceptionHandler(EventAlreadyInterestedToException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(EventAlreadyInterestedToException e,
                                                             HttpServletRequest request) {
         logger.info(request.getRemoteAddr() + " triggered an exception: " + e.getMessage());
 

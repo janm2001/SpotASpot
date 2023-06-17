@@ -1,26 +1,20 @@
 spring:
-  main:
-    banner-mode: off
   datasource:
     url: 'jdbc:tc:postgresql:13-alpine://localhost:4321/spot-a-spot-db-test'
 
-  data:
-    web:
-      pageable:
-        max-page-size: 10
+aws:
+  region: eu-central-1
+  s3:
+    mock: true
+    buckets:
+      images: spotaspot-images
 
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+cors:
+  allowed-origins: "*"
+  allowed-methods: "GET,POST,PATCH,PUT,DELETE,OPTIONS,HEAD"
+  allowed-headers: "*,Requestor-Type,Authorization"
+  exposed-headers: "X-Get-Header"
 
-logging:
-  level:
-    org:
-      springframework:
-        jdbc:
-          core: TRACE
+springdoc:
+  show-actuator: true
+  location: "classpath:openapi/responses.json"

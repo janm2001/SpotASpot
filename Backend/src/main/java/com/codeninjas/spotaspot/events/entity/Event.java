@@ -19,12 +19,6 @@ import java.util.Set;
 @Entity
 @Table(
         name = "event"
-        /*uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "image_id",
-                        columnNames = "imageId"
-                )
-        }*/
 )
 public class Event {
     @Id
@@ -53,25 +47,30 @@ public class Event {
     private LocalDateTime createdAt;
     @Column (nullable = false)
     private LocalDateTime lastChange;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "likes",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> likedBy;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Set<Rating> ratings;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Set<Going> goings;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Set<Interested> interests;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Set<Comment> comments;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(description, event.description) && category == event.category && Objects.equals(city, event.city) && Objects.equals(location, event.location) && Objects.equals(imageId, event.imageId) && Objects.equals(dateTime, event.dateTime) && Objects.equals(isAvailable, event.isAvailable) && Objects.equals(createdBy, event.createdBy) && Objects.equals(createdAt, event.createdAt) && Objects.equals(lastChange, event.lastChange) && Objects.equals(likedBy, event.likedBy);
+        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(description, event.description) && category == event.category && Objects.equals(city, event.city) && Objects.equals(location, event.location) && Objects.equals(imageId, event.imageId) && Objects.equals(dateTime, event.dateTime) && Objects.equals(isAvailable, event.isAvailable) && Objects.equals(createdBy, event.createdBy) && Objects.equals(createdAt, event.createdAt) && Objects.equals(lastChange, event.lastChange) && Objects.equals(ratings, event.ratings) && Objects.equals(goings, event.goings) && Objects.equals(interests, event.interests) && Objects.equals(comments, event.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, category, city, location, imageId, dateTime, isAvailable, createdBy, createdAt, lastChange, likedBy);
+        return Objects.hash(id, name, description, category, city, location, imageId, dateTime, isAvailable, createdBy, createdAt, lastChange, ratings, goings, interests, comments);
     }
 
     @Override
@@ -89,7 +88,10 @@ public class Event {
                 ", createdBy=" + createdBy +
                 ", createdAt=" + createdAt +
                 ", lastChange=" + lastChange +
-                ", likedBy=" + likedBy +
+                ", ratings=" + ratings +
+                ", goings=" + goings +
+                ", interests=" + interests +
+                ", comments=" + comments +
                 '}';
     }
 }

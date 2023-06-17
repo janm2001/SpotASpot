@@ -21,7 +21,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -60,7 +64,7 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "getEvent"),
                     @ApiResponse(responseCode = "404", ref = "getEventNotFound") })
-    @GetMapping("get/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) throws EventNotFoundException {
         EventDTO response = eventService.getEvent(id);
         return ResponseEntity.ok(response);
@@ -80,8 +84,14 @@ public class EventController {
                     description = "Event to add",
                     content = @Content(schema = @Schema(implementation = EventAddRequest.class)))
             EventAddRequest request) throws Exception {
-        eventService.addEvent(request);
-        return ResponseEntity.ok().build();
+        Long eventId = eventService.addEvent(request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/get/{id}")
+                .buildAndExpand(Map.of("id", eventId))
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PostMapping(
@@ -110,7 +120,7 @@ public class EventController {
             responses = {
                     @ApiResponse(responseCode = "200", ref = "deleteEvent"),
                     @ApiResponse(responseCode = "403", ref = "forbidden") })
-    @DeleteMapping("delete/{eventId}")
+    @DeleteMapping("{eventId}")
     public ResponseEntity<?> deleteEvent(@PathVariable Long eventId) throws InvalidDeleteEventException {
         eventService.deleteEvent(eventId);
         return ResponseEntity.ok().build();
@@ -147,26 +157,4 @@ public class EventController {
         return ResponseEntity.ok(EventCategory.values());
     }
 
-    @GetMapping("liked-by/{userId}")
-    public ResponseEntity<?> getLikedEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) throws UserNotFoundException {
-        return ResponseEntity.ok(eventService.getAllLikedEventsForUser(pageable, userId));
-    }
-
-    @GetMapping("liked-for/{eventId}")
-    public ResponseEntity<?> getLikedUsersForEvent(@ParameterObject Pageable pageable, @PathVariable Long eventId) throws EventNotFoundException {
-        return ResponseEntity.ok(eventService.getLikedUsersForEvent(pageable, eventId));
-    }
-
-    @PostMapping("like/{eventId}")
-    public ResponseEntity<?> likeEvent(@PathVariable Long eventId) throws EventNotFoundException, EventAlreadyLikedException {
-        eventService.likeEvent(eventId);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("remove-like/{eventId}")
-    public ResponseEntity<?> removeLikedEvent(@PathVariable Long eventId)
-            throws EventNotFoundException, EventNotLikedException {
-        eventService.removeLikedEvent(eventId);
-        return ResponseEntity.ok().build();
-    }
 }

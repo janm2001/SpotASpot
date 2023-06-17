@@ -1,5 +1,6 @@
 package com.codeninjas.spotaspot.auth.service;
 
+import com.codeninjas.spotaspot.exception.WrongSignatureException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

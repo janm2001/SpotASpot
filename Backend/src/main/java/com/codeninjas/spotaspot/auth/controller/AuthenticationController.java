@@ -16,13 +16,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auth/")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     @Operation(
             summary = "Register new user",
             description = "Register Service",
@@ -42,7 +42,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("authenticate")
     @Operation(
             summary = "Authenticate existing user",
             description = "Authentication Service",

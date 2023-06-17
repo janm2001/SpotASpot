@@ -2,133 +2,131 @@ package com.codeninjas.spotaspot.auth.controller;
 
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationRequest;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
-import com.codeninjas.spotaspot.auth.controller.dto.RoleRequest;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
-import com.codeninjas.spotaspot.users.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
-import java.time.Clock;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles(value = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class AuthenticationControllerIntegrationTest {
 
-    private final static LocalDate LOCAL_DATE = LocalDate.of(1989, 01, 13);
-
+    private static final String AUTHENTICATE_URI = "/api/v1/auth/authenticate";
+    private static final String REGISTER_URI = "/api/v1/auth/register";
+    // For testing
     @Autowired
-    private MockMvc mockMvc;
-
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Mock
-    private Clock clock;
-    private Clock fixedClock;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private WebTestClient webTestClient;
+    private User exampleUser;
+    private User existingUser;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
+        LocalDateTime exampleTime = LocalDateTime.of(1970, 1, 1, 0, 0);
+        exampleUser = User
+                .builder()
+                .email("mail@email.com")
+                .username("username")
+                .firstName("first")
+                .lastName("last")
+                .password("123456")
+                .createdAt(exampleTime)
+                .lastLogin(exampleTime)
+                .lastChange(exampleTime)
+                .role(Role.USER)
+                .build();
 
-        objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        existingUser = User
+                .builder()
+                .email("email@gmail.com")
+                .username("berko123")
+                .firstName("bero")
+                .lastName("beric")
+                .password("123456")
+                .createdAt(exampleTime)
+                .lastLogin(exampleTime)
+                .lastChange(exampleTime)
+                .role(Role.USER)
+                .build();
 
-        fixedClock = Clock.fixed(LOCAL_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault());
-        doReturn(fixedClock.instant()).when(clock).instant();
-        doReturn(fixedClock.getZone()).when(clock).getZone();
-        doReturn(fixedClock.millis()).when(clock).millis();
+        webTestClient.post()
+                .uri("/api/v1/auth/register")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(existingUser), RegisterRequest.class)
+                .exchange();
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() {}
+
+    @Test
+    void register_should_succeed() {
+
+        webTestClient.post()
+                .uri(REGISTER_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(exampleUser), RegisterRequest.class)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("token").isNotEmpty();
     }
 
-    @WithAnonymousUser
     @Test
-    void registerShouldReturnToken() throws Exception {
-        // given
-        String password = "1234";
-        User user = User
-                .builder()
-                .email("Leon@gmail.com")
-                .username("Leonardo1234")
-                .firstName("Leonardo")
-                .lastName("Markovic")
-                .password(password)
-                .createdAt(LocalDateTime.now(clock))
-                .lastLogin(LocalDateTime.now(clock))
-                .lastChange(LocalDateTime.now(clock))
-                .role(Role.USER)
-                .build();
+    void register_should_throw_forbidden_when_existinguser_is_registered() {
 
-
-        RegisterRequest request = new RegisterRequest(user);
-        // when
-        // then
-        mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
+        webTestClient.post()
+                .uri(REGISTER_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(existingUser), RegisterRequest.class)
+                .exchange()
+                .expectStatus()
+                .isForbidden();
     }
 
-    @WithAnonymousUser
     @Test
-    void authenticateShouldReturnToken() throws Exception {
-        // given
-        String username = "Leonardo123";
-        String password = "1234";
+    void authenticate_should_succeed() {
+        webTestClient.post()
+                .uri(AUTHENTICATE_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(
+                        new AuthenticationRequest(
+                                existingUser.getUsername(),
+                                existingUser.getPassword())),
+                        AuthenticationRequest.class)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .jsonPath("token").isNotEmpty();
+    }
 
-        User user = User
-                .builder()
-                .email("Leo@gmail.com")
-                .username(username)
-                .firstName("Leonardo")
-                .lastName("Markovic")
-                .password(passwordEncoder.encode(password))
-                .createdAt(LocalDateTime.now(fixedClock))
-                .lastLogin(LocalDateTime.now(fixedClock))
-                .lastChange(LocalDateTime.now(fixedClock))
-                .role(Role.USER)
-                .build();
-
-        userRepository.save(user);
-
-        AuthenticationRequest request = new AuthenticationRequest(username, password);
-
-        // when
-        // then
-        mockMvc.perform(post("/api/v1/auth/authenticate")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
+    @Test
+    void authenticate_should_fail_when_wrong_credentials() {
+        webTestClient.post()
+                .uri(AUTHENTICATE_URI)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(
+                                new AuthenticationRequest(
+                                        exampleUser.getUsername(),
+                                        exampleUser.getPassword())),
+                        AuthenticationRequest.class)
+                .exchange()
+                .expectStatus()
+                .isForbidden();
     }
 }
