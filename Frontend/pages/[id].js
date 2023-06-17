@@ -157,7 +157,6 @@ const PopularEventDetails = () => {
           </div>
         </div>
       )}
-      <Link href="/">Back to Home</Link>
     </div>
   );
 };
