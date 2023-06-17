@@ -40,17 +40,14 @@ const EventDetails = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      BASE_URL+"/api/v1/event/delete/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(BASE_URL + "/api/v1/event/delete/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       console.log("error");
@@ -59,6 +56,17 @@ const EventDetails = () => {
 
     router.push("/");
   };
+
+  const dateTimeEu = new Date(data.dateTime);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formattedDateTime = dateTimeEu.toLocaleString("en-GB", options);
 
   return (
     <div>
@@ -82,29 +90,37 @@ const EventDetails = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                style={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
+                style={{
+                  color: "#fff",
+                  fontSize: "1.1rem",
+                  margin: "0.5rem 0",
+                }}
               >
-                <RxCalendar /> {data.dateTime}
+                <RxCalendar /> {formattedDateTime}
               </Typography>
 
               <Typography
                 variant="body2"
                 color="text.secondary"
-                style={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
+                style={{
+                  color: "#fff",
+                  fontSize: "1.1rem",
+                  margin: "0.5rem 0",
+                }}
               >
                 <TiLocation /> {data.location}
               </Typography>
               <div className={styles.mapContainer}>
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22257.192290019793!2d15.957429887136506!3d45.788241849274684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d67f741fcbe3%3A0x67a106895e23cb5a!2sZagreba%C4%8Dki%20Velesajam%2C%20d.o.o.!5e0!3m2!1shr!2shr!4v1687017762413!5m2!1shr!2shr"
-    width="800"
-    height="600"
-    style={{ border: "0", width: "100%", height: "100%" }}
-    allowFullScreen=""
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-  ></iframe>
-</div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22257.192290019793!2d15.957429887136506!3d45.788241849274684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4765d67f741fcbe3%3A0x67a106895e23cb5a!2sZagreba%C4%8Dki%20Velesajam%2C%20d.o.o.!5e0!3m2!1shr!2shr!4v1687017762413!5m2!1shr!2shr"
+                  width="800"
+                  height="600"
+                  style={{ border: "0", width: "100%", height: "100%" }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
 
               <Rating
                 name="rating"
@@ -113,7 +129,7 @@ const EventDetails = () => {
                   setRating(newValue);
                 }}
                 size="large"
-                style={{
+                sx={{
                   margin: "1rem 0",
                   "& .MuiRating-iconEmpty": {
                     color: "#fff",
@@ -129,7 +145,6 @@ const EventDetails = () => {
               <br />
 
               <Button className={styles.button}>Going</Button>
-              
             </div>
           </div>
 
