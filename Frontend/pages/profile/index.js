@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, Avatar } from "@mui/material";
 import { deepOrange, deepPurple } from "@mui/material/colors";
 import { BASE_URL } from "@/utils/global";
+import styles from "@/styles/Profile.module.css";
 
 const Profile = () => {
   const [user, setUser] = useState([]);
@@ -37,16 +38,16 @@ const Profile = () => {
   }, []);
 
   return (
-    <Grid
+    <Grid className={styles.grid}
       container
       sx={{
         height: "90vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "left",
         justifyContent: "start",
         gap: "1rem",
-        padding: "1rem 0",
+        padding: "1rem 15rem",
         fontSize: "1.5rem",
       }}
     >

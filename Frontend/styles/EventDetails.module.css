@@ -4,6 +4,7 @@
   height: 90vh;
 }
 
+
 .wrap {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -18,9 +19,6 @@
   font-size: 2.5rem;
 }
 
-.eventInfo {
-  line-height: 2;
-}
 
 .button {
   margin: 1rem 0;
@@ -40,10 +38,22 @@
 }
 
 .eventInfo {
-  display: flex;
+  line-height: 2;
+  display: flex;  
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: start;
+}
+.mapIframe{
+  display: flex;
+  width: 100%;
+}
+
+
+.eventInfo h1 {
+  border: 3px solid #ecb365;
+  border-width: 0px 0px 5px 0px;
+  width: 100%;
 }
 
 .image {
