@@ -4,14 +4,10 @@ import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationRequest;
 import com.codeninjas.spotaspot.auth.controller.dto.AuthenticationResponse;
 import com.codeninjas.spotaspot.auth.controller.dto.RegisterRequest;
 import com.codeninjas.spotaspot.auth.service.AuthenticationService;
-import com.codeninjas.spotaspot.exception.CouldNotRegisterException;
 import com.codeninjas.spotaspot.exception.WrongUsernameOrPasswordException;
 import com.codeninjas.spotaspot.users.controller.dto.UserDTO;
 import com.codeninjas.spotaspot.users.entity.Role;
 import com.codeninjas.spotaspot.users.entity.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,10 +23,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(MockitoExtension.class)
-//@MockitoSettings(strictness = Strictness.LENIENT)
 public class AuthenticationControllerTest {
     private AutoCloseable autoCloseable;
 
@@ -39,23 +33,16 @@ public class AuthenticationControllerTest {
     @Mock
     private AuthenticationService authenticationService;
 
-    private ObjectMapper objectMapper;
-
 
     // Example data
     private User exampleUser;
-    private LocalDateTime exampleTime;
 
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
         underTest = new AuthenticationController(authenticationService);
 
-        objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-        exampleTime = LocalDateTime.of(1970, 1, 1, 0, 0);
+        LocalDateTime exampleTime = LocalDateTime.of(1970, 1, 1, 0, 0);
         exampleUser = new User(
                 UUID.randomUUID(),
                 "First",
@@ -66,8 +53,7 @@ public class AuthenticationControllerTest {
                 Role.USER,
                 exampleTime,
                 exampleTime,
-                exampleTime,
-                null
+                exampleTime
         );
     }
 

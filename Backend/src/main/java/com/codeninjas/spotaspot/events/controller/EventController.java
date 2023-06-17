@@ -157,26 +157,4 @@ public class EventController {
         return ResponseEntity.ok(EventCategory.values());
     }
 
-    @GetMapping("liked-by/{userId}")
-    public ResponseEntity<?> getLikedEventsForUser(@ParameterObject Pageable pageable, @PathVariable UUID userId) throws UserNotFoundException {
-        return ResponseEntity.ok(eventService.getAllLikedEventsForUser(pageable, userId));
-    }
-
-    @GetMapping("liked-for/{eventId}")
-    public ResponseEntity<?> getLikedUsersForEvent(@ParameterObject Pageable pageable, @PathVariable Long eventId) throws EventNotFoundException {
-        return ResponseEntity.ok(eventService.getLikedUsersForEvent(pageable, eventId));
-    }
-
-    @PostMapping("like/{eventId}")
-    public ResponseEntity<?> likeEvent(@PathVariable Long eventId) throws EventNotFoundException, EventAlreadyLikedException {
-        eventService.likeEvent(eventId);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("remove-like/{eventId}")
-    public ResponseEntity<?> removeLikedEvent(@PathVariable Long eventId)
-            throws EventNotFoundException, EventNotLikedException {
-        eventService.removeLikedEvent(eventId);
-        return ResponseEntity.ok().build();
-    }
 }

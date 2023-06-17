@@ -122,42 +122,4 @@ public class EventService {
             );
         }
     }
-
-    public Page<EventDTO> getAllLikedEventsForUser(Pageable pageable, UUID userId) throws UserNotFoundException {
-        // TODO: create query using pageable
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        return new PageImpl<>(user.getLikedEvents().stream().map(EventDTO::new).toList());
-
-
-    }
-
-    public Page<UserDTO> getLikedUsersForEvent(Pageable pageable, Long eventId) throws EventNotFoundException {
-        // TODO: create query using pageable
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        return new PageImpl<>(event.getLikedBy().stream().map(UserDTO::new).toList());
-    }
-
-    public void likeEvent(Long eventId) throws EventNotFoundException, EventAlreadyLikedException {
-        User currentUser = jwtService.getCurrentUser();
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        Set<Event> likedEvents = currentUser.getLikedEvents();
-        if (likedEvents.contains(event)) {
-            throw new EventAlreadyLikedException(eventId);
-        }
-        likedEvents.add(event);
-        currentUser.setLikedEvents(likedEvents);
-        userRepository.save(currentUser);
-    }
-
-    public void removeLikedEvent(Long eventId) throws EventNotFoundException, EventNotLikedException {
-        User currentUser = jwtService.getCurrentUser();
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        Set<Event> likedEvents = currentUser.getLikedEvents();
-        if (!likedEvents.contains(event)) {
-            throw new EventNotLikedException(eventId);
-        }
-        likedEvents.remove(event);
-        currentUser.setLikedEvents(likedEvents);
-        userRepository.save(currentUser);
-    }
 }

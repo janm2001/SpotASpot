@@ -19,5 +19,9 @@ public interface EventRepository extends CrudRepository<Event, Long>, PagingAndS
     @Query(value = "UPDATE Event e SET e.imageId = :imageId WHERE e.id = :eventId")
     int updateEventImageId(@Param("imageId") String imageId, @Param("eventId") Long eventId);
 
-    Page<Event> findAllLikedBy(Pageable pageable, Event event);
+    @Query(value = "SELECT g.event FROM Going g WHERE g.user.id = :userId")
+    Page<Event> findAllEventsGoingToForUser(Pageable pageable, @Param("userId") UUID userId);
+
+    @Query(value = "SELECT i.event FROM Interested i WHERE i.user.id = :userId")
+    Page<Event> findAllEventsInterestedToForUser(Pageable pageable, @Param("userId") UUID userId);
 }
