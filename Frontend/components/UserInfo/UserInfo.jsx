@@ -9,7 +9,7 @@ const UserInfo = ({ firstName, lastName, email, username, role }) => {
       p={0}
       sx={{
         display: "flex",
-        alignItems: "center",
+        alignItems: "start",
         justifyContent: "center",
         flexDirection: "column",
         gap: "1.5rem",

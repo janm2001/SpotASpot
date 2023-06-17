@@ -172,7 +172,7 @@ export default function Home() {
         <link rel="icon" href={favicon} />
       </Head>
       <main>
-        <Carousel>
+        <Carousel className={styles.caruselEvents}>
           {dummyCarouselEvents.map((event) => (
             <CarouselItem key={event.id} {...{ ...event }} />
           ))}

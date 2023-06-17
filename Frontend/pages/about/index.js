@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '@/styles/About.module.css'
 import people from '../../public/people.jpg'
-import logo from '../../public/logosas.png'
+import logo from '../../public/logo.png'
 import organizers from '../../public/organizers.jpg'
 import event from '../../public/event.jpg'
 import Image from 'next/image'
@@ -23,12 +23,13 @@ const index = () => {
         <p>Get hyped for endless possibilities of fun and excitement with our amazing app that makes discovering and creating awesome events a breeze!</p>
       </div>
       <div className={styles.img}>
-      <Image src={logo} alt="" layout='fill' className={styles.image}/>
+      <Image src={logo}  alt=""  className={styles.image}/>
+      
       </div>
 
 
       <div className={styles.img}>
-      <Image src={event} alt="" layout='fill' className={styles.image} />
+      <Image src={event} alt="" fill className={styles.image} />
       </div>
 
 
@@ -46,11 +47,11 @@ const index = () => {
       </div>
 
       <div className={styles.img}>
-      <Image src={people} alt="" layout='fill' className={styles.image} />
+      <Image src={people} alt="" fill className={styles.image} />
       </div>
 
       <div className={styles.img}>
-      <Image src={organizers} alt="" layout='fill' className={styles.image} />
+      <Image src={organizers} alt="" fill className={styles.image} />
       </div>
 
 

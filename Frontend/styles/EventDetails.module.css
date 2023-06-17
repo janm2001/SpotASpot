@@ -18,10 +18,6 @@
   font-size: 2.5rem;
 }
 
-.eventInfo {
-  line-height: 2;
-}
-
 .button {
   margin: 1rem 0;
   padding: 1rem 1.5rem;
@@ -40,10 +36,21 @@
 }
 
 .eventInfo {
+  line-height: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: start;
+  justify-content: start;
+}
+.mapIframe {
+  display: flex;
+  width: 100%;
+}
+
+.eventInfo h1 {
+  border: 3px solid #ecb365;
+  border-width: 0px 0px 5px 0px;
+  width: 100%;
 }
 
 .image {
@@ -74,4 +81,62 @@
 .buttons svg {
   font-size: 2rem;
   color: #fff;
+}
+@media (max-width: 480px) {
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .img {
+    height: auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .eventInfo {
+    text-align: center;
+  }
+
+  .button {
+    align-self: flex-end;
+  }
+
+  .desc {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .desc p {
+    width: 100%;
+  }
+  .header {
+    font-size: 2.5rem;
+  }
+  .eventDetails {
+    margin: 2rem auto;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .eventInfo {
+    width: 100%;
+    align-items: start;
+  }
+  .eventInfo h1 {
+    width: 100%;
+    border-bottom: solid 4px #ecb365;
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .header {
+    font-size: 2.5rem;
+    display: flex;
+    align-items: flex-start;
+  }
 }

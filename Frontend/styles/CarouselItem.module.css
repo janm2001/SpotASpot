@@ -1,62 +1,79 @@
-.item{
+.item {
     width: 100%;
     margin: 0 auto;
     position: relative;
     display: inline-block;
-    
+    background-color: rgba(0, 0, 0, 0.75);
+    font-family: "Poppins", sans-serif;
 }
 
-.itemImage{
-    width:100%;
+.itemImage {
+    width: 100%;
     height: 79vh;
 }
 
-.itemDescription{
+.itemDescription {
     position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: 3rem;
-  color: #fff;
-  font-weight: bold;
-  font-size: 2rem;
-  line-height: 1.75;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 1.75;
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    margin-left: 0;
+    padding-left: 15%;
+    /*width: fit-content;
+    margin-left: 15%;
+    padding: 1%;*/
 }
 
-.itemLocation,.itemCalendar{
+.itemLocation,
+.itemCalendar {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
     gap: 1rem;
 }
 
-.itemButton{
+.itemLocation svg,
+.itemCalendar svg {
+    flex-shrink: 0;
+}
+
+.itemButton {
     padding: 1rem 2.5rem;
-    border-radius: 10px;
+    border-radius: 30px;
     border: 3px solid #fff;
     color: #fff;
     font-weight: 700;
     margin: 1rem 0;
+    font-size: 1rem;
+    height: 3rem;
+    margin-bottom: 2rem;
 }
 
-.itemHeader{
+.itemHeader {
     font-size: 4.5rem;
+    
 }
 
-@media(max-width:1024px){
-    .itemHeader{
+@media (max-width: 1024px) {
+    .itemHeader {
         font-size: 3.5rem;
     }
 
-    .itemDescription{
+    .itemDescription {
         position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-left: 3rem;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.5rem;
-      line-height: 1.5;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding-left: 3rem;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        background-color: rgba(0, 0, 0, 0.75);
     }
 }
