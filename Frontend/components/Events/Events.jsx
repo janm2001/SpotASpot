@@ -75,7 +75,7 @@ const Events = ({
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
           <h6 className={styles.price}>{price}</h6>
-          <Button size="small">Learn More</Button>
+          <Button size="small" style={{ color: "#ECB365" }}></Button>
         </CardActions>
       </Card>
     </Link>

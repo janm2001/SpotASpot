@@ -83,7 +83,9 @@ const PopularEvent = ({
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Button size="small">Learn More</Button>
+          <Button size="small" style={{ color: "#ECB365" }}>
+            Learn More
+          </Button>
         </CardActions>
       </Card>
     </Link>
