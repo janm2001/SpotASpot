@@ -90,11 +90,13 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: var(--background-primary);
+  height: 100vh
 }
 
 a {
