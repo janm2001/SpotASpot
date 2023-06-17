@@ -40,17 +40,14 @@ const EventDetails = () => {
 
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      BASE_URL+"/api/v1/event/delete/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(BASE_URL + "/api/v1/event/delete/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       console.log("error");
@@ -59,6 +56,17 @@ const EventDetails = () => {
 
     router.push("/");
   };
+
+  const dateTimeEu = new Date(data.dateTime);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formattedDateTime = dateTimeEu.toLocaleString("en-GB", options);
 
   return (
     <div>
@@ -84,7 +92,7 @@ const EventDetails = () => {
                 color="text.secondary"
                 sx={{ color: "#fff", fontSize: "1.1rem", margin: "0.5rem 0" }}
               >
-                <RxCalendar /> {data.dateTime}
+                <RxCalendar /> {formattedDateTime}
               </Typography>
 
               <Typography

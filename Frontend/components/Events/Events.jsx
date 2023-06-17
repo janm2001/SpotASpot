@@ -21,6 +21,17 @@ const Events = ({
   location,
   id,
 }) => {
+  const dateTimeEu = new Date(dateTime);
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formattedDateTime = dateTimeEu.toLocaleString("en-GB", options);
+
   return (
     <Link href={`/events/${id}`}>
       <Card sx={{ background: "#064663", color: "#fff", lineHeight: 2 }}>
@@ -47,7 +58,7 @@ const Events = ({
             color="text.secondary"
             sx={{ color: "#ECB365", fontSize: "1.1rem" }}
           >
-            <RxCalendar /> {dateTime}
+            <RxCalendar /> {formattedDateTime}
           </Typography>
 
           <Typography
@@ -64,7 +75,7 @@ const Events = ({
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
           <h6 className={styles.price}>{price}</h6>
-          <Button size="small">Learn More</Button>
+          <Button size="small" style={{ color: "#ECB365" }}></Button>
         </CardActions>
       </Card>
     </Link>
